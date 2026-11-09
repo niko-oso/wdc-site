@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WDC — международное подводное сообщество</title>
+<meta name="description" content="WDC объединяет дайверов, фридайверов, учёных, спасателей и исследователей подводного мира: проекты, комитеты, национальные дайв-лиги, новости.">
+<meta name="theme-color" content="#04233F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= ШАПКА ================= -->
+<header class="hdr" id="hdr">
+  <div class="hdr__in wrap">
+    <a href="#top" class="logo" aria-label="WDC — на главную">
+      <svg class="logo__mark" viewBox="0 0 48 48" aria-hidden="true">
+        <defs><linearGradient id="lg-logo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5D27A"/><stop offset="1" stop-color="#D99A2B"/></linearGradient></defs>
+        <circle cx="24" cy="24" r="22" fill="none" stroke="url(#lg-logo)" stroke-width="2.4"/>
+        <path d="M9 27c4-3 7-3 10 0s6 3 10 0 7-3 10 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M11 33c4-3 7-3 10 0s6 3 10 0 6-3 8-1" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+        <path d="M24 6v13M19 13l5-7 5 7" fill="none" stroke="url(#lg-logo)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo__txt"><b>WDC</b><small>World Diving<br>Community</small></span>
+    </a>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="#projects" class="nav__a">Проекты</a>
+      <a href="#" class="nav__a">Медподготовка</a>
+      <div class="nav__dd">
+        <button class="nav__a nav__btn" aria-expanded="false" aria-controls="mega">Комитеты
+          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <div class="mega" id="mega" role="menu">
+          <div class="mega__in">
+            <div class="mega__intro">
+              <span class="eyebrow">13 комитетов</span>
+              <p>Каждый комитет ведёт своё направление: от спорта и науки до спасательных работ и культуры.</p>
+              <a href="#committees" class="link-arrow">Все комитеты</a>
+            </div>
+            <div class="mega__grid" id="megaGrid"></div>
+          </div>
+        </div>
+      </div>
+      <a href="#" class="nav__a">Членство в WDC</a>
+      <a href="#" class="nav__a">О нас</a>
+    </nav>
+
+    <div class="hdr__tools">
+      <button class="icon-btn" aria-label="Поиск"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
+      <div class="lang"><button class="is-on">RU</button><button>EN</button></div>
+      <a href="#" class="btn btn--gold btn--sm hdr__cta">Вступить в WDC</a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- мобильное меню -->
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="mnav__in">
+    <a href="#projects">Проекты</a>
+    <a href="#">Медицинская подготовка</a>
+    <details>
+      <summary>Комитеты</summary>
+      <div class="mnav__sub" id="mnavSub"></div>
+    </details>
+    <a href="#">Членство в WDC</a>
+    <a href="#">О нас</a>
+    <div class="mnav__foot">
+      <a href="#" class="btn btn--gold">Вступить в WDC</a>
+      <div class="lang lang--light"><button class="is-on">RU</button><button>EN</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- глубиномер -->
+<aside class="depth" aria-hidden="true">
+  <div class="depth__scale"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span></div>
+  <div class="depth__track"><i class="depth__fill" id="depthFill"></i><b class="depth__dot" id="depthDot"></b></div>
+  <div class="depth__val"><b id="depthVal">0</b> м</div>
+</aside>
+
+<main id="top">
+
+<!-- ================= БАННЕР ================= -->
+<section class="hero" id="hero" data-depth="0">
+  <div class="hero__slides">
+    <div class="hero__slide is-active"><img src="img/hero-1.jpg" alt="" fetchpriority="high"></div>
+    <div class="hero__slide"><img src="img/hero-2.jpg" alt="" loading="lazy" style="object-position:70% 50%"></div>
+    <div class="hero__slide"><img src="img/hero-3.jpg" alt="" loading="lazy"></div>
+  </div>
+  <div class="hero__shade"></div>
+  <div class="bubbles" id="heroBubbles"></div>
+
+  <div class="hero__body wrap">
+    <div class="hero__texts">
+      <article class="hero__txt is-active">
+        <span class="eyebrow eyebrow--light">Международное подводное сообщество</span>
+        <h1>Объединяем всех, кто дышит <em>глубиной</em></h1>
+        <p>Дайверы, фридайверы, учёные, спасатели и исследователи — в одной команде. Спорт, наука, экспедиции и образование под флагом WDC.</p>
+        <div class="hero__btns"><a href="#" class="btn btn--gold">Вступить в WDC</a><a href="#mission" class="btn btn--glass">Узнать о нас</a></div>
+      </article>
+      <article class="hero__txt">
+        <span class="eyebrow eyebrow--light">Проект · Спортивный комитет</span>
+        <h1>Кубок мира по фридайвингу <em>2027</em></h1>
+        <p>Открыта регистрация национальных сборных. Шесть дисциплин, три этапа, финал — в синей дыре Дахаба.</p>
+        <div class="hero__btns"><a href="#" class="btn btn--gold">Принять участие</a><a href="#projects" class="btn btn--glass">Все проекты</a></div>
+      </article>
+      <article class="hero__txt">
+        <span class="eyebrow eyebrow--light">Экспедиция · Научный комитет</span>
+        <h1>Тайны затонувших кораблей <em>Балтики</em></h1>
+        <p>Подводные археологи WDC обследуют 14 исторических судов XVIII–XX веков и создают их 3D-модели.</p>
+        <div class="hero__btns"><a href="#" class="btn btn--gold">Подробнее</a><a href="#news" class="btn btn--glass">Репортажи</a></div>
+      </article>
+    </div>
+
+    <div class="hero__nav">
+      <div class="hero__count"><b id="heroNum">01</b><span>/ 03</span></div>
+      <div class="hero__dots" id="heroDots">
+        <button class="is-active" aria-label="Слайд 1"><i></i></button>
+        <button aria-label="Слайд 2"><i></i></button>
+        <button aria-label="Слайд 3"><i></i></button>
+      </div>
+      <div class="hero__arrows">
+        <button class="arrow" id="heroPrev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="arrow" id="heroNext" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <a href="#mission" class="hero__scroll"><span>Погружаемся</span><i></i></a>
+  <svg class="hero__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50c120-30 240-30 360 0s240 30 360 0 240-30 360 0 240 30 360 0v40H0z"/></svg>
+</section>
+
+<!-- ================= МИССИЯ ================= -->
+<section class="mission sec" id="mission" data-depth="10">
+  <div class="caustics" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="mission__top">
+      <div class="mission__lead reveal">
+        <span class="eyebrow">Чем занимается WDC</span>
+        <h2 class="h2">Развиваем подводную деятельность — от первого погружения до мировых рекордов</h2>
+        <p>WDC — открытая платформа для национальных дайв-лиг, клубов, школ и специалистов. Мы задаём стандарты подготовки, проводим соревнования и экспедиции, поддерживаем науку и бережём океан.</p>
+        <a href="#" class="link-arrow">Подробнее о миссии</a>
+      </div>
+      <figure class="mission__pic reveal">
+        <img src="img/mission.jpg" alt="Дайверы готовятся к погружению на палубе судна" loading="lazy">
+        <figcaption><b>2015</b><span>год основания<br>WDC</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="dirs">
+      <article class="dir reveal">
+        <div class="dir__ic"><svg viewBox="0 0 48 48"><path d="M6 18 24 9l18 9-18 9z"/><path d="M13 22v9c0 3 5 6 11 6s11-3 11-6v-9"/><path d="M42 18v10"/></svg></div>
+        <h3>Образование</h3><p>Единые программы подготовки и сертификации по ГОСТ и ISO</p>
+      </article>
+      <article class="dir reveal">
+        <div class="dir__ic"><svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="10"/><path d="M18 29l-4 13 10-5 10 5-4-13"/><path d="M20 20l3 3 6-6"/></svg></div>
+        <h3>Спорт</h3><p>Соревнования по дайвингу, фридайвингу и фиджитал-дайвингу</p>
+      </article>
+      <article class="dir reveal">
+        <div class="dir__ic"><svg viewBox="0 0 48 48"><path d="M19 6h10M21 6v12L10 38a3 3 0 0 0 3 4h22a3 3 0 0 0 3-4L27 18V6"/><path d="M14 31h20"/><circle cx="21" cy="36" r="1.5"/><circle cx="28" cy="34" r="1"/></svg></div>
+        <h3>Наука</h3><p>Подводная археология, история и исследования морских экосистем</p>
+      </article>
+      <article class="dir reveal">
+        <div class="dir__ic"><svg viewBox="0 0 48 48"><path d="M8 26c5-6 12-9 19-7 4 1 8 4 13 7-5 3-9 6-13 7-7 2-14-1-19-7z"/><circle cx="32" cy="25" r="1.6"/><path d="M8 26l-4-5v10z"/><path d="M14 12c2-3 5-4 8-3M30 40c3 1 6 0 8-3"/></svg></div>
+        <h3>Экология</h3><p>Очистка акваторий, защита рифов и мониторинг подводной среды</p>
+      </article>
+    </div>
+
+    <div class="stats reveal" id="stats">
+      <div class="stat"><b data-count="34">0</b><span>страны-участницы</span></div>
+      <div class="stat"><b data-count="52">0</b><span>представительства</span></div>
+      <div class="stat"><b data-count="48000" data-suffix="+">0</b><span>дайверов в лигах</span></div>
+      <div class="stat"><b data-count="120">0</b><span>проектов с 2015 года</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= КАРТА ================= -->
+<section class="map sec sec--dark" id="map" data-depth="30">
+  <div class="wrap">
+    <div class="sec-head sec-head--light reveal">
+      <div>
+        <span class="eyebrow eyebrow--gold">География WDC</span>
+        <h2 class="h2">Представительства по всему миру</h2>
+      </div>
+      <div class="map__tabs" id="mapTabs" role="tablist">
+        <button class="is-on" data-r="all">Все</button>
+        <button data-r="eu">Европа</button>
+        <button data-r="as">Азия</button>
+        <button data-r="af">Африка</button>
+        <button data-r="am">Америка</button>
+        <button data-r="oc">Океания</button>
+      </div>
+    </div>
+
+    <div class="map__box reveal">
+      <div class="map__stage">
+      <svg class="map__svg" id="mapSvg" viewBox="0 0 1000 520" role="img" aria-label="Карта представительств WDC"></svg>
+      <div class="map__card" id="mapCard" hidden>
+        <div class="map__card-ph"><img id="mcImg" src="img/p-reef.jpg" alt=""></div>
+        <div class="map__card-b">
+          <span class="map__card-c" id="mcCountry"></span>
+          <b id="mcCity"></b>
+          <p id="mcText"></p>
+          <a href="#" class="link-arrow link-arrow--gold">Представительство</a>
+        </div>
+        <button class="map__card-x" id="mcClose" aria-label="Закрыть">×</button>
+      </div>
+      </div>
+      <div class="map__legend">
+        <span><i class="lg-gold"></i>Страны-участницы</span>
+        <span><i class="lg-pin"></i>Представительство</span>
+        <span class="map__hint">Нажмите на точку, чтобы узнать подробнее</span>
+      </div>
+    </div>
+    <div class="map__list" id="mapList"></div>
+  </div>
+</section>
+
+<!-- ================= ПРОЕКТЫ ================= -->
+<section class="projects sec" id="projects" data-depth="45">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow">Что мы делаем</span>
+        <h2 class="h2">Проекты</h2>
+      </div>
+      <a href="#" class="link-arrow">Все проекты</a>
+    </div>
+    <div class="grid4" id="projGrid"></div>
+    <div class="more"><button class="btn btn--outline" id="projMore">Посмотреть ещё</button></div>
+  </div>
+</section>
+
+<!-- ================= КОМИТЕТЫ ================= -->
+<section class="committees sec sec--foam" id="committees" data-depth="65">
+  <div class="wrap">
+    <div class="tiles" id="comTiles">
+      <div class="tiles__intro reveal">
+        <span class="eyebrow">Структура</span>
+        <h2 class="h2">Комитеты WDC</h2>
+        <p>Тринадцать направлений — в каждом эксперты, свои проекты и новости.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ДАЙВ-ЛИГИ ================= -->
+<section class="leagues sec sec--dark" id="leagues" data-depth="90">
+  <div class="leagues__rays" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head sec-head--light reveal">
+      <div>
+        <span class="eyebrow eyebrow--gold">Участники</span>
+        <h2 class="h2">Национальные дайв-лиги</h2>
+      </div>
+      <p class="sec-head__p">Лиги — основа WDC. Познакомьтесь с людьми, которые развивают подводную деятельность в своих странах.</p>
+    </div>
+
+    <div class="crew reveal">
+      <div class="crew__info" id="crewInfo">
+        <span class="crew__league" id="crLeague"></span>
+        <h3 id="crName"></h3>
+        <span class="crew__role" id="crRole"></span>
+        <p id="crBio"></p>
+        <div class="crew__meta" id="crMeta"></div>
+      </div>
+      <div class="crew__stage" id="crewStage"></div>
+    </div>
+    <div class="crew__ctrl">
+      <button class="arrow arrow--light" id="crewPrev" aria-label="Предыдущая лига"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="crew__flags" id="crewFlags"></div>
+      <button class="arrow arrow--light" id="crewNext" aria-label="Следующая лига"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПАРТНЁРЫ ================= -->
+<section class="partners sec" id="partners" data-depth="110">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow">Вместе с нами</span>
+        <h2 class="h2">Партнёры</h2>
+      </div>
+      <a href="#" class="link-arrow">Стать партнёром</a>
+    </div>
+  </div>
+  <div class="marquee" id="mq1"><div class="marquee__track"></div></div>
+  <div class="marquee marquee--rev" id="mq2"><div class="marquee__track"></div></div>
+</section>
+
+<!-- ================= НОВОСТИ ================= -->
+<section class="news sec sec--foam" id="news" data-depth="130">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow">Пресс-центр</span>
+        <h2 class="h2">Главные новости</h2>
+      </div>
+      <a href="#" class="link-arrow">Все новости</a>
+    </div>
+    <div class="grid4" id="newsGrid"></div>
+    <div class="more"><button class="btn btn--outline" id="newsMore">Показать ещё</button></div>
+  </div>
+</section>
+
+<!-- ================= ПОДПИСКА ================= -->
+<section class="subscribe sec sec--abyss" id="subscribe" data-depth="170">
+  <div class="subscribe__bg" aria-hidden="true"><img src="img/jellies.jpg" alt="" loading="lazy"></div>
+  <div class="wrap subscribe__in">
+    <div class="subscribe__txt reveal">
+      <span class="eyebrow eyebrow--gold">Будьте на связи</span>
+      <h2 class="h2">Всплывайте к нам в соцсетях</h2>
+      <p>Анонсы соревнований и экспедиций, репортажи с глубины, полезные материалы для дайверов — первыми в официальных каналах WDC.</p>
+    </div>
+    <div class="soc">
+      <a href="#" class="soc__card soc__card--tg reveal">
+        <span class="soc__ic"><svg viewBox="0 0 24 24"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4zM9.6 14.7l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3.1z"/></svg></span>
+        <span class="soc__t"><b>Telegram</b><small>@wdc_official · 24 тыс. подписчиков</small></span>
+        <span class="soc__go">Подписаться</span>
+      </a>
+      <a href="#" class="soc__card soc__card--vk reveal">
+        <span class="soc__ic"><svg viewBox="0 0 24 24"><path d="M12.8 17.5C6.6 17.5 3.1 13.3 3 6.3h3c.1 5.1 2.4 7.3 4.2 7.7V6.3h2.9v4.4c1.8-.2 3.6-2.2 4.2-4.4h2.8c-.5 2.7-2.4 4.7-3.8 5.5 1.4.7 3.6 2.4 4.4 5.7h-3.1c-.7-2.1-2.4-3.8-4.5-4v4h-.3z"/></svg></span>
+        <span class="soc__t"><b>ВКонтакте</b><small>vk.com/wdc · 31 тыс. участников</small></span>
+        <span class="soc__go">Вступить</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= ПОДВАЛ ================= -->
+<footer class="ftr" data-depth="200">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div class="ftr__brand">
+        <a href="#top" class="logo logo--light" aria-label="WDC">
+          <svg class="logo__mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="url(#lg-logo)" stroke-width="2.4"/><path d="M9 27c4-3 7-3 10 0s6 3 10 0 7-3 10 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 33c4-3 7-3 10 0s6 3 10 0 6-3 8-1" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".55"/><path d="M24 6v13M19 13l5-7 5 7" fill="none" stroke="url(#lg-logo)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="logo__txt"><b>WDC</b><small>World Diving<br>Community</small></span>
+        </a>
+        <p>Международное сообщество подводной деятельности: спорт, наука, образование, экспедиции.</p>
+        <div class="ftr__soc">
+          <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.5 4.2 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4zM9.6 14.7l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3.1z"/></svg></a>
+          <a href="#" aria-label="ВКонтакте"><svg viewBox="0 0 24 24"><path d="M12.8 17.5C6.6 17.5 3.1 13.3 3 6.3h3c.1 5.1 2.4 7.3 4.2 7.7V6.3h2.9v4.4c1.8-.2 3.6-2.2 4.2-4.4h2.8c-.5 2.7-2.4 4.7-3.8 5.5 1.4.7 3.6 2.4 4.4 5.7h-3.1c-.7-2.1-2.4-3.8-4.5-4v4h-.3z"/></svg></a>
+        </div>
+      </div>
+      <div class="ftr__col"><b>Деятельность</b><a href="#projects">Проекты</a><a href="#">Медицинская подготовка</a><a href="#committees">Комитеты</a><a href="#news">Новости</a></div>
+      <div class="ftr__col"><b>Комитеты</b><a href="#">Спортивный</a><a href="#">Научный</a><a href="#">Экспедиционный</a><a href="#">Поисково-спасательный</a><a href="#committees">Все комитеты</a></div>
+      <div class="ftr__col"><b>WDC</b><a href="#">О нас</a><a href="#">История</a><a href="#leagues">Национальные лиги</a><a href="#partners">Партнёры</a><a href="#">Членство в WDC</a></div>
+      <div class="ftr__col ftr__contacts"><b>Контакты</b><a href="tel:+74950000000">+7 (495) 000-00-00</a><a href="mailto:info@wdc.org">info@wdc.org</a><span>Москва, ул. Примерная, 1</span></div>
+    </div>
+    <div class="ftr__bot">
+      <span>© WDC, 2015–2026</span>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Пользовательское соглашение</a>
+    </div>
+  </div>
+</footer>
+
+<script src="vendor/d3.min.js"></script>
+<script src="vendor/topojson-client.min.js"></script>
+<script src="vendor/world.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
