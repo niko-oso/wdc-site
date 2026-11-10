@@ -30,8 +30,13 @@
       <a href="#">О нас</a>
     </nav>
     <div class="hd__r">
-      <button class="lang" aria-label="Язык">RU</button>
-      <a href="#" class="cta">Вступить в WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      <a href="#" class="hsoc" aria-label="Telegram"><img src="img/tg.svg" alt=""></a>
+      <a href="#" class="hsoc soc-vk" aria-label="ВКонтакте"><img src="img/vk.svg" alt=""></a>
+      <div class="lsw" id="lsw">
+        <button class="lang lsw__btn" aria-label="Язык сайта" aria-expanded="false">RU <svg viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
+        <div class="lsw__panel"><a href="index-v2.html" class="is-on" lang="ru"><b>RU</b>Русский</a><a href="index-v2-en.html" lang="en"><b>EN</b>English</a></div>
+      </div>
+      <a href="#" class="cta" data-modal="join">Вступить в WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
       <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
     </div>
   </div>
@@ -45,7 +50,8 @@
     <a href="#">Членство в WDC</a>
     <a href="#">О нас</a>
   </nav>
-  <a href="#" class="cta cta--full">Вступить в WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+  <div class="mm__lang"><a href="index-v2.html" class="is-on" lang="ru">RU · Русский</a><a href="index-v2-en.html" lang="en">EN · English</a></div>
+  <a href="#" class="cta cta--full" data-modal="join">Вступить в WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
 </div>
 
 <button class="totop" id="toTop" aria-label="Наверх"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
@@ -84,7 +90,7 @@
         </div>
       </div>
       <div class="hero__act">
-        <a href="#" class="btn btn--light mag"><span id="heroCta">Вступить в WDC</span> <i class="btn__ar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
+        <a href="#" class="btn btn--light mag" data-modal="join"><span id="heroCta">Вступить в WDC</span> <i class="btn__ar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
         <div class="crowd">
           <span class="crowd__av"><img src="img/l-2.jpg" alt=""><img src="img/l-6.jpg" alt=""><img src="img/l-12.jpg" alt=""><img src="img/l-1.jpg" alt=""></span>
           <span><b>48 000+</b> дайверов<br>в национальных лигах</span>
@@ -148,6 +154,8 @@
           <button class="is-on" data-r="all">Все</button><button data-r="eu">Европа</button><button data-r="as">Азия</button><button data-r="af">Африка</button><button data-r="am">Америка</button><button data-r="oc">Океания</button>
         </div>
       </div>
+      <div class="geo__pan" id="geoPan">
+        <div class="geo__zoom"><button data-z="1" aria-label="Увеличить карту">+</button><button data-z="-1" aria-label="Уменьшить карту">−</button></div>
       <div class="geo__stage" id="geoStage">
         <svg class="geo__svg" id="mapSvg" viewBox="0 0 1000 520" role="img" aria-label="Карта представительств WDC"></svg>
         <div class="geo__card" id="mapCard" hidden>
@@ -156,6 +164,8 @@
           <button class="geo__card-x" id="mcClose" aria-label="Закрыть">×</button>
         </div>
       </div>
+      </div>
+      <span class="geo__hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 9 5 12l3 3M16 9l3 3-3 3M5 12h14"/></svg>Двигайте и увеличивайте карту пальцами</span>
       <div class="geo__foot">
         <button class="rnd geo__arr" data-gl="-1" aria-label="Предыдущие города"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
         <div class="geo__list" id="mapList"></div>
@@ -237,11 +247,12 @@
         <span class="chip">Вместе с нами</span>
         <h2 class="h2">Партнёры <em>WDC</em></h2>
       </div>
-      <a href="#" class="pill-link">Стать партнёром <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      <a href="#" class="pill-link" data-modal="partner">Стать партнёром <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
     </div>
   </div>
   <div class="mq" id="mq1"><div class="mq__track"></div></div>
   <div class="mq mq--rev" id="mq2"><div class="mq__track"></div></div>
+  <div class="wrap partners__more"><a href="#" class="pill-link" data-modal="partner">Стать партнёром <i><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a></div>
 </section>
 
 <!-- ============ НОВОСТИ ============ -->
@@ -272,7 +283,7 @@
       <div class="sub__bg" aria-hidden="true"><img src="img/jellies.jpg" alt="" loading="lazy"></div>
       <div class="sub__txt">
         <span class="chip chip--glass">Будьте на связи</span>
-        <h2 class="h2 h2--light">Всплывайте к нам <em>в соцсетях</em></h2>
+        <h2 class="h2 h2--light">Всплывайте к нам<br><em>в соцсетях</em></h2>
         <p>Анонсы соревнований и экспедиций, репортажи с глубины и полезные материалы — первыми в официальных каналах WDC.</p>
       </div>
       <div class="sub__btns">
@@ -297,7 +308,7 @@
       <div class="ft__col"><b>Деятельность</b><a href="#projects">Проекты</a><a href="#">Медицинская подготовка</a><a href="#committees">Комитеты</a><a href="#news">Новости</a></div>
       <div class="ft__col"><b>WDC</b><a href="#">О нас</a><a href="#">История</a><a href="#leagues">Национальные лиги</a><a href="#partners">Партнёры</a><a href="#">Членство</a></div>
       <div class="ft__col"><b>Контакты</b><a href="tel:+74950000000" class="ft__big">+7 (495) 000-00-00</a><a href="mailto:info@wdc.org">info@wdc.org</a><span>Москва, ул. Примерная, 1</span>
-        <div class="ft__soc"><a href="#" aria-label="Telegram">TG</a><a href="#" aria-label="ВКонтакте">VK</a></div>
+        <div class="ft__soc"><a href="#" aria-label="Telegram"><img src="img/tg.svg" alt=""></a><a href="#" class="soc-vk" aria-label="ВКонтакте"><img src="img/vk.svg" alt=""></a></div>
       </div>
     </div>
     <div class="ft__gap"></div>
@@ -311,5 +322,6 @@
 <script src="vendor/world.js"></script>
 <script src="js/data.js"></script>
 <script src="js/v2.js"></script>
+<script src="js/forms.js"></script>
 </body>
 </html>

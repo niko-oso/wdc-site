@@ -8,12 +8,13 @@
   const pic = (n, alt) => `<img src="img/${n}.jpg" alt="${alt || ''}" loading="${qy ? 'eager' : 'lazy'}" decoding="async">`;
   const arUp = '<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>';
   const n2 = (i) => String(i + 1).padStart(2, '0');
-  const clean = (d) => d.replace(/\s*(Три подкомитета|Подкомитеты):$/, '');
-
+  const clean = (d) => d.replace(/\s*(Три подкомитета|Подкомитеты|Three subcommittees|Subcommittees):$/, '');
+  const EN = document.documentElement.lang === 'en', T = (ru, en) => (EN ? en : ru);
   /* ---------- плавная прокрутка ---------- */
   let lenis = null;
   if (window.Lenis && !reduce && !qy) {
     lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    window.__lenis = lenis;
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
   }
@@ -27,6 +28,17 @@
   /* ---------- меню ---------- */
   $('#ddGrid').innerHTML = D.committees.map((c) => `<a href="#"><i>${icon(c.k)}</i><span><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}</span></a>`).join('');
   $('#mmSub').innerHTML = D.committees.map((c) => `<a href="#">${icon(c.k)}${c.t}</a>`).join('');
+  /* переключатель языка — выпадашка в стиле меню */
+  const lsw = $('#lsw');
+  if (lsw) {
+    let lT; const lBtn = $('.lsw__btn', lsw);
+    const lSet = (o) => { lsw.classList.toggle('is-open', o); lBtn.setAttribute('aria-expanded', o); };
+    lsw.addEventListener('mouseenter', () => { if (fine) { clearTimeout(lT); lSet(true); } });
+    lsw.addEventListener('mouseleave', () => { if (fine) lT = setTimeout(() => lSet(false), 200); });
+    lBtn.addEventListener('click', () => lSet(!lsw.classList.contains('is-open')));
+    document.addEventListener('click', (e) => { if (!lsw.contains(e.target)) lSet(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lSet(false); });
+  }
   const dd = $('.dd'); let ddT;
   const ddSet = (o) => { dd.classList.toggle('is-open', o); $('.dd__btn').setAttribute('aria-expanded', o); };
   dd.addEventListener('mouseenter', () => { clearTimeout(ddT); ddSet(true); });
@@ -55,15 +67,38 @@
     <a href="#" class="cc rv" style="--i:${Math.min(i, 3)}">
       <span class="cc__ph">${pic(c.img, c.t)}<span class="cc__n">${n2(i)}</span></span>
       <i class="cc__ic">${icon(c.k)}</i>
-      <span class="cc__b"><small>${c.sub ? c.sub.join(' · ') : 'Комитет'}</small><h3>${c.t}</h3><p>${clean(c.d).replace(/\.$/, '')}</p><span class="nc__more">Подробнее<i>${arUp}</i></span></span>
+      <span class="cc__b"><small>${c.sub ? c.sub.join(' · ') : T('Комитет', 'Committee')}</small><h3>${c.t}</h3><p>${clean(c.d).replace(/\.$/, '')}</p><span class="nc__more">${T('Подробнее', 'Read more')}<i>${arUp}</i></span></span>
     </a>`).join('');
 
   /* ---------- новости ---------- */
   $('#newsGrid').innerHTML = D.news.map((n, i) => `
     <a href="#" class="nc rv" style="--i:${Math.min(i, 3)}">
       <span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span>
-      <span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">Подробнее<i>${arUp}</i></span></span>
+      <span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">${T('Подробнее', 'Read more')}<i>${arUp}</i></span></span>
     </a>`).join('');
+
+  /* адаптив слайдеров: ссылка «Все …» — к таблетке, стрелки — под карточками по бокам точек */
+  const mobMQ = matchMedia('(max-width: 720px)');
+  const sliderHeads = $$('.head__side').map((side) => {
+    const head = side.closest('.head'), chip = $('.chip', head), link = $('.alink', side), nav = $('.sl-nav', side);
+    const btns = $$('button', nav), sl = $(`#${btns[0].dataset.sl}`), dots = $(`.sl-dots[data-for="${sl.id}"]`);
+    const row = document.createElement('div'); row.className = 'head__row';
+    const bar = document.createElement('div'); bar.className = 'sl-bar';
+    return { side, chip, link, nav, btns, dots, row, bar };
+  });
+  function placeSliderCtrls() {
+    sliderHeads.forEach(({ side, chip, link, nav, btns, dots, row, bar }) => {
+      if (mobMQ.matches) {
+        if (!row.isConnected) { chip.before(row); row.append(chip, link); }
+        if (!bar.isConnected) { dots.before(bar); bar.append(btns[0], dots, btns[1]); }
+      } else {
+        if (row.isConnected) { row.before(chip); side.prepend(link); row.remove(); }
+        if (bar.isConnected) { bar.before(dots); nav.append(...btns); bar.remove(); }
+      }
+    });
+  }
+  placeSliderCtrls();
+  mobMQ.addEventListener('change', placeSliderCtrls);
 
   /* слайдеры проектов и новостей */
   $$('.slider').forEach((sl) => {
@@ -75,7 +110,7 @@
       const st = step(), n = Math.max(1, sl.children.length - Math.round((sl.clientWidth + 18) / st) + 1);
       if (n === pages) return;
       pages = n;
-      dots.innerHTML = Array.from({ length: n }, (_, i) => `<button aria-label="Слайд ${i + 1}" data-i="${i}"></button>`).join('');
+      dots.innerHTML = Array.from({ length: n }, (_, i) => `<button aria-label="${T('Слайд', 'Slide')} ${i + 1}" data-i="${i}"></button>`).join('');
       dots.hidden = n < 2;
     };
     const upd = () => {
@@ -107,7 +142,8 @@
     cur = (n + slides.length) % slides.length;
     [slides, texts, ghosts, bars].forEach((arr) => arr.forEach((el, i) => el.classList.toggle('is-on', i === cur)));
     $('#heroNum').textContent = n2(cur);
-    $('#heroCta').textContent = ['Вступить в WDC', 'Принять участие', 'Читать репортаж'][cur];
+    $('#heroCta').textContent = (EN ? ['Join WDC', 'Take part', 'Read the story'] : ['Вступить в WDC', 'Принять участие', 'Читать репортаж'])[cur];
+    $('#heroCta').parentElement.dataset.modal = ['join', 'cup', ''][cur];
     const nx = (cur + 1) % slides.length;
     $('#hnImg').src = `img/${heroImgs[nx]}.jpg`; $('#hnTitle').textContent = heroTitles[nx];
     restart();
@@ -134,7 +170,7 @@
   $$('.rv').forEach((el) => io.observe(el));
 
   /* ---------- счётчики ---------- */
-  const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, EN ? ',' : ' ');
   const cio = new IntersectionObserver((es) => es.forEach((e) => {
     if (!e.isIntersecting) return; cio.unobserve(e.target);
     $$('[data-count]', e.target).forEach((el, k) => {
@@ -152,7 +188,7 @@
     const all = topojson.feature(WORLD, WORLD.objects.countries);
     all.features = all.features.filter((f) => f.id !== '010');
     const proj = d3.geoNaturalEarth1().fitExtent([[8, 8], [W - 8, H - 8]], all), path = d3.geoPath(proj), mem = new Set(D.members);
-    svg.html(`<defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7DC8C"/><stop offset=".55" stop-color="#E2B04A"/><stop offset="1" stop-color="#B9832A"/></linearGradient><radialGradient id="pinGlow"><stop offset="0" stop-color="#8DEBDA" stop-opacity=".9"/><stop offset="1" stop-color="#8DEBDA" stop-opacity="0"/></radialGradient></defs>`);
+    svg.html(`<defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EAD8B0"/><stop offset=".55" stop-color="#CFAE72"/><stop offset="1" stop-color="#A3834E"/></linearGradient><radialGradient id="pinGlow"><stop offset="0" stop-color="#9CC4FF" stop-opacity=".9"/><stop offset="1" stop-color="#9CC4FF" stop-opacity="0"/></radialGradient></defs>`);
     svg.append('path').attr('class', 'map__grat').attr('d', path(d3.geoGraticule10()));
     svg.append('g').selectAll('path').data(all.features).join('path').attr('d', path).attr('class', (f) => 'map__c' + (mem.has(f.id) ? ' is-mem' : ''));
     const pins = svg.append('g').selectAll('g').data(D.offices).join('g').attr('class', 'pin').attr('tabindex', 0).attr('role', 'button').attr('aria-label', (o) => `${o.city}, ${o.c}`)
@@ -160,20 +196,82 @@
     pins.append('circle').attr('class', 'pin__glow').attr('r', 14);
     pins.append('circle').attr('class', 'pin__ring').attr('r', 6).style('animation-delay', (o, i) => `${(-i * 0.37) % 3}s`);
     pins.append('circle').attr('class', 'pin__dot').attr('r', 3.6);
-    const stage = $('#geoStage'), card = $('#mapCard');
+    const stage = $('#geoStage'), card = $('#mapCard'), pan = $('#geoPan'), hint = $('.geo__hint');
+    pan.appendChild(card); // карточка не масштабируется вместе с картой
+    /* планшет и телефон: карта увеличивается двумя пальцами и двигается одним */
+    const zoomMQ = matchMedia('(max-width: 1060px)');
+    const Z = { s: 1, tx: 0, ty: 0 }, S_MIN = 1, S_MAX = 6;
+    const regionX = { all: .56, eu: .53, as: .7, af: .53, am: .28, oc: .84 };
+    const sizeW = () => stage.clientWidth, sizeH = () => stage.clientHeight;
+    function applyZ(anim) {
+      Z.s = Math.min(S_MAX, Math.max(S_MIN, Z.s));
+      const vw = zoomMQ.matches ? pan.clientWidth : sizeW(), vh = zoomMQ.matches ? pan.clientHeight : sizeH(), w = sizeW() * Z.s, h = sizeH() * Z.s;
+      Z.tx = w <= vw ? (vw - w) / 2 : Math.min(0, Math.max(vw - w, Z.tx));
+      Z.ty = h <= vh ? (vh - h) / 2 : Math.min(0, Math.max(vh - h, Z.ty));
+      stage.classList.toggle('is-anim', !!anim);
+      stage.style.transform = !zoomMQ.matches && Z.s === 1 ? '' : `translate(${Z.tx}px, ${Z.ty}px) scale(${Z.s})`;
+      pan.classList.toggle('is-zoomed', Z.s > 1.01);
+    }
+    function zoomAt(ns, cx, cy, anim) {
+      const k = Math.min(S_MAX, Math.max(S_MIN, ns)) / Z.s;
+      Z.tx = cx - (cx - Z.tx) * k; Z.ty = cy - (cy - Z.ty) * k; Z.s *= k; applyZ(anim);
+    }
+    function centerOn(fx, fy, anim) {
+      if (!zoomMQ.matches) return;
+      Z.tx = pan.clientWidth / 2 - fx * sizeW() * Z.s; Z.ty = pan.clientHeight / 2 - fy * sizeH() * Z.s; applyZ(anim);
+    }
+    const panTo = (fx, fy = .42) => centerOn(fx, fy, true);
+    function resetZ() {
+      if (zoomMQ.matches) { Z.s = pan.clientHeight / sizeH() * 1.15; centerOn(regionX.all, .42, false); } else { Z.s = 1; Z.tx = Z.ty = 0; applyZ(false); }
+    }
+    requestAnimationFrame(resetZ);
+    zoomMQ.addEventListener('change', resetZ);
+    $$('#mapTabs button').forEach((b) => b.addEventListener('click', () => panTo(regionX[b.dataset.r] || .5)));
+    // жесты: один палец двигает, два — увеличивают
+    const pts = new Map(); let g0 = null, moved = 0;
+    const local = (e) => { const r = pan.getBoundingClientRect(); return [e.clientX - r.left - stage.offsetLeft, e.clientY - r.top - stage.offsetTop]; };
+    const gesture = () => {
+      const p = [...pts.values()];
+      if (p.length === 1) return { x: p[0][0], y: p[0][1], d: 0 };
+      return { x: (p[0][0] + p[1][0]) / 2, y: (p[0][1] + p[1][1]) / 2, d: Math.hypot(p[0][0] - p[1][0], p[0][1] - p[1][1]) };
+    };
+    const snap = () => { g0 = { ...gesture(), s: Z.s, tx: Z.tx, ty: Z.ty }; };
+    pan.addEventListener('pointerdown', (e) => {
+      if (!zoomMQ.matches || e.pointerType === 'mouse' || e.target.closest('.geo__card, .geo__zoom')) return;
+      pts.set(e.pointerId, local(e)); snap(); if (pts.size === 1) moved = 0;
+      hint && hint.classList.add('is-off');
+    });
+    pan.addEventListener('pointermove', (e) => {
+      if (!pts.has(e.pointerId)) return;
+      pts.set(e.pointerId, local(e)); const g = gesture(); moved += 1;
+      if (pts.size >= 2 && g0.d) {
+        const ns = Math.min(S_MAX, Math.max(S_MIN, g0.s * g.d / g0.d)), k = ns / g0.s;
+        Z.s = ns; Z.tx = g.x - (g0.x - g0.tx) * k; Z.ty = g.y - (g0.y - g0.ty) * k;
+      } else { Z.tx = g0.tx + g.x - g0.x; Z.ty = g0.ty + g.y - g0.y; }
+      applyZ(false);
+    });
+    // iOS Safari: не даём щипку масштабировать всю страницу поверх карты
+    ['gesturestart', 'gesturechange'].forEach((t) => pan.addEventListener(t, (e) => { if (zoomMQ.matches) e.preventDefault(); }));
+    pan.addEventListener('touchmove', (e) => { if (zoomMQ.matches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+    const up = (e) => { if (pts.delete(e.pointerId) && pts.size) snap(); };
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => pan.addEventListener(t, up));
+    pan.addEventListener('click', (e) => { if (moved > 4) { e.stopPropagation(); e.preventDefault(); moved = 0; } }, true);
+    $$('.geo__zoom button').forEach((b) => b.addEventListener('click', () => { zoomAt(Z.s * (b.dataset.z > 0 ? 1.6 : 1 / 1.6), pan.clientWidth / 2, pan.clientHeight / 2, true); hint && hint.classList.add('is-off'); }));
     function open(o, el) {
       $$('.pin.is-active').forEach((p) => p.classList.remove('is-active')); el.classList.add('is-active');
       $('#mcCountry').textContent = o.c; $('#mcCity').textContent = o.city; $('#mcText').textContent = o.t; $('#mcImg').src = `img/${D.regionImg[o.r]}.jpg`;
       card.hidden = false;
-      const bw = stage.clientWidth, px = o.x / W * bw, py = o.y / H * stage.clientHeight, cw = card.offsetWidth, ch = card.offsetHeight;
-      let top = py - ch - 18; if (top < 0) top = py + 18;
-      card.style.left = Math.max(8, Math.min(bw - cw - 8, px - cw / 2)) + 'px'; card.style.top = top + 'px';
+      const fx = o.x / W, fy = o.y / H;
+      if (zoomMQ.matches) { if (Z.s < 2) Z.s = 2.4; centerOn(fx, Math.max(.35, fy), true); }
+      const pw = pan.clientWidth, sx = stage.offsetLeft + Z.tx + fx * sizeW() * Z.s, sy = stage.offsetTop + Z.ty + fy * sizeH() * Z.s, cw = card.offsetWidth, ch = card.offsetHeight;
+      let top = sy - ch - 18; if (top < 0) top = sy + 18;
+      if (zoomMQ.matches) { card.style.left = card.style.top = ''; } else { card.style.left = Math.max(8, Math.min(pw - cw - 8, sx - cw / 2)) + 'px'; card.style.top = top + 'px'; }
       card.classList.remove('is-show'); void card.offsetWidth; card.classList.add('is-show');
     }
     const pinOf = (o) => pins.filter((d) => d === o).node();
     pins.on('click', function (e, o) { open(o, this); }).on('keydown', function (e, o) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(o, this); } });
     $('#mcClose').addEventListener('click', () => { card.hidden = true; $$('.pin.is-active').forEach((p) => p.classList.remove('is-active')); });
-    const feat = [['Дахаб', 'p-freedive', 'Голубая дыра'], ['Иркутск · Байкал', 'p-ice', 'Байкал'], ['Кэрнс', 'p-reef', 'Барьерный риф'], ['Канкун', 'm-cenote', 'Сеноты']];
+    const feat = EN ? [['Dahab', 'p-freedive', 'Blue Hole'], ['Irkutsk · Baikal', 'p-ice', 'Baikal'], ['Cairns', 'p-reef', 'Barrier Reef'], ['Cancun', 'm-cenote', 'Cenotes']] : [['Дахаб', 'p-freedive', 'Голубая дыра'], ['Иркутск · Байкал', 'p-ice', 'Байкал'], ['Кэрнс', 'p-reef', 'Барьерный риф'], ['Канкун', 'm-cenote', 'Сеноты']];
     const thumbs = feat.map(([city, im, cap], i) => {
       const o = D.offices.find((x) => x.city === city), el = document.createElement('button');
       el.className = 'geo__thumb geo__thumb--' + i; el.dataset.r = o.r;
@@ -220,6 +318,7 @@
         c.style.pointerEvents = a > 3 ? 'none' : ''; c.classList.toggle('is-on', !a);
       });
       tabBtns.forEach((b, k) => b.classList.toggle('is-on', k === people[at].li));
+      const on = tabBtns[people[at].li]; if (on && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: on.offsetLeft - (tabs.clientWidth - on.offsetWidth) / 2, behavior: 'smooth' });
     }
     const set = (i) => { at = ((i % people.length) + people.length) % people.length; layout(); };
     $('#flowPrev').addEventListener('click', () => set(at - 1));
