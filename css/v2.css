@@ -208,8 +208,6 @@ svg path, svg circle, svg rect { vector-effect: non-scaling-stroke; }
 .dir { display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
 .dir i { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: #fff; border: 1px solid var(--line); transition: .4s var(--ease); }
 .dir i svg { width: 26px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.dir:hover i { background: var(--accent); border-color: var(--accent); transform: translateY(-4px); }
-.dir:hover i svg { stroke: #fff; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 72px; }
 .stat { position: relative; padding: 26px 26px 24px; border-radius: var(--r); background: #fff; min-height: 190px; display: flex; flex-direction: column; justify-content: flex-end; transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
 .stat:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); }
@@ -516,3 +514,180 @@ svg path, svg circle, svg rect { vector-effect: non-scaling-stroke; }
 }
 .geo__card[hidden] { display: none; }
 .ft__waves { left: auto; right: 4%; }
+/* логотип WDC (цвет берётся из currentColor: белый на тёмном, тёмный на светлом) */
+.wdc-logo { display: block; width: auto; flex-shrink: 0; }
+.brand .wdc-logo { height: 54px; }
+.hd.is-solid .brand .wdc-logo { height: 48px; }
+.brand--light .wdc-logo { height: 84px; color: #fff; }
+.mt--brand .wdc-logo { height: 66px; color: #fff; }
+@media (max-width: 720px) { .brand .wdc-logo { height: 40px; } .hd.is-solid .brand .wdc-logo { height: 40px; } }
+/* кнопка «О миссии WDC» */
+.about__btn .btn__ar svg { width: 16px; }
+.about__btn:hover .btn__ar { transform: rotate(45deg); }
+.dir i { transition: none; }
+/* меню строго по центру шапки: слева и справа равные колонки */
+.hd__in { display: grid; grid-template-columns: 1fr auto 1fr; }
+.hd__in .brand { justify-self: start; }
+.hd__in .pills { margin: 0; }
+.hd__in .hd__r { justify-self: end; }
+@media (max-width: 1060px) { .hd__in { grid-template-columns: 1fr auto; } }
+/* кнопка «наверх» */
+.totop { position: fixed; z-index: 60; right: 24px; bottom: 24px; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; box-shadow: 0 16px 36px -14px rgba(31, 91, 255, .7); opacity: 0; visibility: hidden; transform: translateY(16px) scale(.9); transition: opacity .4s var(--ease), transform .4s var(--ease), visibility .4s, background .3s; }
+.totop.is-on { opacity: 1; visibility: visible; transform: none; }
+.totop svg { width: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s var(--ease); }
+.totop:hover { background: var(--accent-d); }
+.totop:hover svg { transform: translateY(-3px); }
+.mm-open .totop { opacity: 0; visibility: hidden; }
+.ft__gap { height: 56px; }
+@media (max-width: 720px) { .totop { right: 16px; bottom: 16px; width: 50px; height: 50px; } .ft__gap { height: 36px; } }
+.ft { padding-bottom: 104px; }
+@media (max-width: 720px) { .ft { padding-bottom: 84px; } }
+/* винтажный компас за коллажем (блок миссии) */
+.about { overflow: hidden; }
+.about .wrap { position: relative; z-index: 1; }
+.compass { position: absolute; z-index: 0; left: max(-330px, calc((100vw - 1320px) / 2 - 300px)); top: 50%; width: 760px; height: 760px; transform: translateY(-42%); pointer-events: none; opacity: .5; }
+.compass svg { width: 100%; height: 100%; overflow: visible; }
+.compass .cp-map path { fill: none; stroke: #DCCFBC; stroke-width: 1.4; }
+.compass .cp-dots ellipse { fill: #DDD1BF; stroke: none; }
+.compass .cp-rays line { stroke: #EBDDC5; stroke-width: 2; }
+.compass .cp-ring circle, .compass .cp-ring line, .compass .cp-ring path { fill: none; stroke: #B5A794; stroke-width: 1.3; }
+.compass .cp-star { transform-box: view-box; transform-origin: 50% 50%; }
+.compass .cp-hatch { stroke: #A89884; stroke-width: 1.6; stroke-linejoin: round; }
+.compass .cp-blank { fill: var(--bg); stroke: #A89884; stroke-width: 1.6; stroke-linejoin: round; }
+.compass .cp-star > circle:last-child { fill: #A89884; }
+.compass .cp-txt text { fill: #A89884; text-anchor: middle; dominant-baseline: middle; font-family: var(--serif); }
+.compass .cp-big { font-size: 46px; font-weight: 600; }
+.compass .cp-sm { font-size: 22px; font-style: italic; }
+@media (max-width: 1600px) and (min-width: 1061px) { .compass { width: 620px; height: 620px; left: calc((100vw - 1320px) / 2 - 250px); transform: translateY(-40%); } }
+@media (max-width: 1060px) { .compass { left: -280px; top: 0; width: 620px; height: 620px; transform: none; } }
+@media (max-width: 720px) { .compass { left: -230px; top: 10px; width: 480px; height: 480px; opacity: .7; } }
+/* компас в подвале: светлые линии на тёмно-синем, у правого края */
+.ft .wrap { position: relative; z-index: 1; }
+.compass--ft { left: auto; right: -300px; top: -150px; width: 720px; height: 720px; transform: none; opacity: .32; }
+.compass--ft .cp-map path { stroke: #2C4A6E; }
+.compass--ft .cp-dots ellipse { fill: #2C4A6E; }
+.compass--ft .cp-rays line { stroke: #24405F; }
+.compass--ft .cp-ring circle, .compass--ft .cp-ring line, .compass--ft .cp-ring path { stroke: #6F8DB0; }
+.compass--ft .cp-hatch, .compass--ft .cp-blank { stroke: #8EA9C7; }
+.compass--ft .cp-blank { fill: var(--navy); }
+.compass--ft .cp-star > circle:last-child { fill: #8EA9C7; }
+.compass--ft .cp-txt text { fill: #8EA9C7; }
+@media (max-width: 1600px) and (min-width: 1061px) { .compass--ft { width: 620px; height: 620px; left: auto; right: -280px; top: -140px; transform: none; } }
+@media (max-width: 1060px) { .compass--ft { left: auto; right: -260px; top: -120px; width: 560px; height: 560px; } }
+@media (max-width: 720px) { .compass--ft { left: auto; right: -220px; top: -100px; width: 440px; height: 440px; opacity: .25; } }
+
+/* ================= СЛАЙДЕРЫ ПРОЕКТОВ И НОВОСТЕЙ ================= */
+.head__side { display: flex; align-items: center; gap: 28px; }
+.alink { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 500; color: var(--accent); text-decoration: none; transition: color .3s; }
+.alink svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s var(--ease); }
+.alink:hover { color: var(--accent-d); }
+.alink:hover svg { transform: translateX(5px); }
+.sl-nav { display: flex; gap: 10px; }
+.rnd--lt { background: #fff; border-color: var(--line); color: var(--ink); cursor: pointer; }
+.rnd--lt:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rnd--lt:disabled { opacity: .35; cursor: default; background: #fff; border-color: var(--line); color: var(--ink); }
+.cards4.slider { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 10px 0 56px; margin: -10px 0 -56px; overscroll-behavior-x: contain; }
+.cards4.slider::-webkit-scrollbar { display: none; }
+.cards4.slider > * { flex: 0 0 calc((100% - 54px) / 4); scroll-snap-align: start; }
+@media (max-width: 1060px) { .cards4.slider > * { flex-basis: calc((100% - 18px) / 2); } }
+@media (max-width: 720px) {
+  .head__side { width: 100%; justify-content: space-between; gap: 16px; }
+  .rnd--lt { width: 44px; height: 44px; }
+  .cards4.slider { gap: 12px; margin: -10px -16px -56px; padding: 10px 16px 56px; scroll-padding-inline: 16px; }
+  .cards4.slider > * { flex-basis: 80%; }
+}
+.cards4.slider > .nc { height: auto; }
+
+/* кнопки и палочки слайдеров — акцентные */
+.rnd--lt { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rnd--lt:hover { background: var(--accent-d); border-color: var(--accent-d); color: #fff; }
+.rnd--lt:disabled { opacity: .3; background: var(--accent); border-color: var(--accent); color: #fff; }
+.sl-dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; position: relative; z-index: 1; }
+.sl-dots[hidden] { display: none; }
+.sl-dots button { width: 28px; height: 18px; padding: 0; position: relative; cursor: pointer; }
+.sl-dots button::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 4px; border-radius: 4px; background: #C9D7E3; transition: background .3s; }
+.sl-dots button { transition: width .45s var(--ease); }
+.sl-dots button.is-on { width: 56px; }
+.sl-dots button.is-on::before { background: var(--accent); }
+.sl-dots button:hover:not(.is-on)::before { background: #9FB4C7; }
+@media (max-width: 720px) { .sl-dots { margin-top: 20px; gap: 6px; } .sl-dots button { width: 20px; } .sl-dots button.is-on { width: 40px; } }
+
+/* карта — компактная, помещается в экран ноутбука */
+.geo.dark-box { padding: 30px 40px 28px; }
+.geo .geo__head { margin-bottom: 22px; }
+.geo__stage { max-width: min(1000px, max(560px, calc((100vh - 300px) * 1.923))); }
+.geo__foot { margin-top: 10px; }
+@media (max-width: 720px) { .geo.dark-box { padding: 26px 16px; } .geo__stage { max-width: none; } }
+
+/* ================= КОМИТЕТЫ — слайдер ================= */
+.cc { position: relative; display: flex; flex-direction: column; padding: 10px; border-radius: var(--r); background: #fff; transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
+.cc:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); }
+.cc__ph { position: relative; height: 210px; border-radius: 18px; overflow: hidden; flex-shrink: 0; }
+.cc__ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.3s var(--ease); }
+.cc:hover .cc__ph img { transform: scale(1.07); }
+.cc__ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6, 18, 38, .35), transparent 45%); }
+.cc__n { position: absolute; top: 12px; right: 14px; z-index: 1; font-size: 13px; font-weight: 600; color: #fff; letter-spacing: .04em; }
+.cc__ic { position: absolute; left: 22px; top: 188px; width: 52px; height: 52px; border-radius: 16px; background: #fff; display: grid; place-items: center; box-shadow: 0 10px 24px -12px rgba(11, 27, 51, .45); transition: background .3s; }
+.cc__ic svg { width: 24px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s; }
+.cc:hover .cc__ic { background: var(--accent); }
+.cc:hover .cc__ic svg { stroke: #fff; }
+.cc__b { flex: 1; display: flex; flex-direction: column; padding: 44px 10px 8px; }
+.cc__b small { font-size: 12.5px; color: var(--accent); font-weight: 500; margin-bottom: 4px; }
+.cc h3 { font-size: 20px; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 8px; }
+.cc__sub { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.cc__sub span { height: 26px; padding: 0 10px; display: inline-flex; align-items: center; border-radius: 20px; font-size: 12px; background: var(--sky); color: var(--ink); }
+.cc p { font-size: 14px; color: var(--muted); line-height: 1.45; margin-bottom: 16px; }
+.cc:hover .nc__more i { background: var(--accent); color: #fff; transform: rotate(45deg); }
+.cards4.slider > .cc { height: auto; }
+@media (max-width: 720px) { .cc__ph { height: 190px; } .cc__ic { top: 168px; } }
+
+/* комитеты — компактнее по высоте */
+#committees .head { margin-bottom: 26px; }
+#committees .sl-dots { margin-top: 26px; }
+.cc__ph { height: 150px; }
+.cc__ic { top: 132px; left: 20px; width: 44px; height: 44px; border-radius: 13px; }
+.cc__ic svg { width: 21px; }
+.cc__b { padding: 32px 8px 4px; }
+.cc__b small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc h3 { font-size: 18.5px; margin-bottom: 6px; }
+.cc p { font-size: 13.5px; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cc .nc__more { font-size: 13.5px; }
+.cc .nc__more i { width: 34px; height: 34px; }
+@media (max-width: 720px) { .cc__ph { height: 150px; } .cc__ic { top: 132px; } }
+
+/* футер — меньше пустоты под ссылками */
+.ft__gap { height: 36px; }
+.ft__top { padding-top: 24px; }
+.ft { padding-bottom: 32px; }
+@media (max-width: 1560px) { .ft { padding-bottom: 92px; } }
+@media (max-width: 720px) { .ft__gap { height: 24px; } .ft__top { padding-top: 16px; } .ft { padding-bottom: 84px; } }
+
+/* карта: заголовок в 2 строки, табы справа, карта крупнее, блок ниже */
+.geo .geo__head { position: relative; z-index: 4; flex-wrap: nowrap; align-items: flex-end; margin-bottom: 0; pointer-events: none; }
+.geo .geo__head > * { pointer-events: auto; }
+.geo .geo__head .seg { flex-shrink: 0; }
+.geo__stage { max-width: min(1240px, max(560px, calc((100vh - 245px) * 1.923))); margin-top: -64px; }
+.geo__foot { gap: 10px; margin-top: 6px; }
+.geo__legend { margin-left: 14px; }
+.geo__arr { width: 40px; height: 40px; flex-shrink: 0; cursor: pointer; }
+.geo__arr svg { width: 17px; }
+.geo__arr:hover { background: var(--mint); border-color: var(--mint); color: var(--navy); }
+.geo__arr:disabled { opacity: .3; cursor: default; background: transparent; border-color: rgba(255, 255, 255, .25); color: #fff; }
+@media (max-width: 1060px) { .geo .geo__head { flex-wrap: wrap; } .geo__stage { margin-top: 10px; } }
+@media (max-width: 720px) { .geo__stage { max-width: none; margin-top: 6px; } .geo__arr { width: 36px; height: 36px; } }
+
+/* футер: низ к краю экрана, ссылки не под кнопкой «наверх» */
+.ft { padding-bottom: 22px; }
+@media (max-width: 1560px) { .ft { padding-bottom: 22px; } .ft__bot { padding-right: 84px; } }
+@media (max-width: 720px) { .ft { padding-bottom: 22px; } .ft__bot { padding-right: 70px; } }
+.geo .geo__head { align-items: flex-start; }
+.geo .geo__head .seg { margin-top: 62px; }
+.geo__stage { margin-top: -34px; }
+@media (max-width: 1060px) { .geo .geo__head .seg { margin-top: 0; } .geo__stage { margin-top: 10px; } }
+@media (max-width: 720px) { .geo__stage { margin-top: 6px; } }
+
+/* первый экран: контент по ширине общего контейнера (.wrap) */
+.hero__frame { --hx: max(24px, calc((100% - 1320px) / 2)); }
+.hero__body, .hero__ctrl { left: var(--hx); }
+.hero__next { right: var(--hx); }
+@media (max-width: 720px) { .hero__body { left: 20px; right: 20px; } .hero__ctrl { left: 20px; } }

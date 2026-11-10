@@ -483,3 +483,9 @@ p, figure { margin: 0; }
   .tile__b small { font-size: 11.5px; }
   .tile__go { display: none; }
 }
+/* логотип WDC */
+.wdc-logo { display: block; width: auto; flex-shrink: 0; }
+.logo .wdc-logo { height: 58px; transition: height .4s; }
+.hdr.is-scrolled .logo .wdc-logo { height: 50px; }
+.logo--light .wdc-logo { height: 78px; color: #fff; }
+@media (max-width: 760px) { .logo .wdc-logo, .hdr.is-scrolled .logo .wdc-logo { height: 42px; } }

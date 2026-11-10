@@ -43,48 +43,53 @@
 
   /* ---------- проекты ---------- */
   $('#projGrid').innerHTML = D.projects.map((p, i) => `
-    <a href="#" class="pc rv${i > 3 ? ' is-hidden' : ''}" style="--i:${i % 4}">
+    <a href="#" class="pc rv" style="--i:${Math.min(i, 3)}">
       <span class="pc__ph">${pic(p.img, p.t)}</span>
       <span class="pc__tag">${p.tag}</span>
       <i class="pc__go">${arUp}</i>
       <span class="pc__b"><h3>${p.t}</h3><p>${p.d}</p></span>
     </a>`).join('');
 
-  /* ---------- комитеты: мозаика ---------- */
-  const mosaic = $('#mosaic');
-  const tiles = D.committees.map((c, t) => {
-    const cell = t + 2, photo = (Math.floor(cell / 4) + cell % 4) % 2 === 0;
-    return `<a href="#" class="mt mt--${photo ? 'photo' : 'line'} rv" style="--i:${cell % 4}">
-      <span class="mt__ph">${pic(c.img, c.t)}</span>
-      <span class="mt__n">${n2(t)}</span>
-      <span class="mt__ic">${icon(c.k)}</span>
-      <span class="mt__t"><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}<span class="mt__d">${clean(c.d)}</span></span>
-    </a>`;
-  }).join('');
-  mosaic.insertAdjacentHTML('beforeend', tiles + `
-    <div class="mt mt--brand rv" style="--i:3">
-      <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M9 27c4-3 7-3 10 0s6 3 10 0 7-3 10 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M24 6v13M19 13l5-7 5 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span><b>Найдите свой комитет</b><a href="#" class="link">Все комитеты <i>${arUp}</i></a></span>
-    </div>`);
+  /* ---------- комитеты: слайдер ---------- */
+  $('#comGrid').innerHTML = D.committees.map((c, i) => `
+    <a href="#" class="cc rv" style="--i:${Math.min(i, 3)}">
+      <span class="cc__ph">${pic(c.img, c.t)}<span class="cc__n">${n2(i)}</span></span>
+      <i class="cc__ic">${icon(c.k)}</i>
+      <span class="cc__b"><small>${c.sub ? c.sub.join(' · ') : 'Комитет'}</small><h3>${c.t}</h3><p>${clean(c.d).replace(/\.$/, '')}</p><span class="nc__more">Подробнее<i>${arUp}</i></span></span>
+    </a>`).join('');
 
   /* ---------- новости ---------- */
-  const comByName = (c) => (D.committees.find((x) => c.toLowerCase().includes(x.t.toLowerCase().slice(0, 6))) || D.committees[0]).k;
   $('#newsGrid').innerHTML = D.news.map((n, i) => `
-    <a href="#" class="nc rv${i > 3 ? ' is-hidden' : ''}" style="--i:${i % 4}">
-      <span class="nc__ph">${pic(n.img, n.t)}<i class="nc__ic">${icon(comByName(n.c))}</i><span class="nc__dt">${n.dt}</span></span>
+    <a href="#" class="nc rv" style="--i:${Math.min(i, 3)}">
+      <span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span>
       <span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">Подробнее<i>${arUp}</i></span></span>
     </a>`).join('');
 
-  function more(btn, grid, text) {
-    btn.addEventListener('click', () => {
-      const hidden = $$('.is-hidden', grid);
-      hidden.slice(0, 4).forEach((el, i) => { el.classList.remove('is-hidden', 'is-in'); setTimeout(() => el.classList.add('is-in'), 40 + i * 100); });
-      if (hidden.length <= 4) { const a = document.createElement('a'); a.href = '#'; a.className = btn.className; a.innerHTML = `${text} <i class="btn__ar">${arUp}</i>`; btn.replaceWith(a); }
-      lenis && lenis.resize();
-    });
-  }
-  more($('#projMore'), $('#projGrid'), 'Все проекты');
-  more($('#newsMore'), $('#newsGrid'), 'Все новости');
+  /* слайдеры проектов и новостей */
+  $$('.slider').forEach((sl) => {
+    const btns = $$(`[data-sl="${sl.id}"]`);
+    const step = () => { const c = sl.firstElementChild; return c ? c.offsetWidth + parseFloat(getComputedStyle(sl).columnGap || 18) : sl.clientWidth; };
+    const dots = $(`.sl-dots[data-for="${sl.id}"]`);
+    let pages = 0;
+    const build = () => {
+      const st = step(), n = Math.max(1, sl.children.length - Math.round((sl.clientWidth + 18) / st) + 1);
+      if (n === pages) return;
+      pages = n;
+      dots.innerHTML = Array.from({ length: n }, (_, i) => `<button aria-label="Слайд ${i + 1}" data-i="${i}"></button>`).join('');
+      dots.hidden = n < 2;
+    };
+    const upd = () => {
+      const max = sl.scrollWidth - sl.clientWidth - 2;
+      btns.forEach((b) => { b.disabled = b.dataset.dir < 0 ? sl.scrollLeft <= 2 : sl.scrollLeft >= max; });
+      const cur = sl.scrollLeft >= max ? pages - 1 : Math.round(sl.scrollLeft / step());
+      $$('button', dots).forEach((d, i) => d.classList.toggle('is-on', i === cur));
+    };
+    btns.forEach((b) => b.addEventListener('click', () => sl.scrollBy({ left: step() * b.dataset.dir, behavior: 'smooth' })));
+    dots.addEventListener('click', (e) => { const d = e.target.closest('button'); if (d) sl.scrollTo({ left: step() * d.dataset.i, behavior: 'smooth' }); });
+    sl.addEventListener('scroll', upd, { passive: true });
+    addEventListener('resize', () => { build(); upd(); });
+    build(); upd();
+  });
 
   /* ---------- партнёры ---------- */
   const marks = ['<path d="M3 14c3-3 6-3 9 0s6 3 9 0"/><path d="M3 9c3-3 6-3 9 0s6 3 9 0"/>', '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>', '<path d="M12 3v15M7 8h10M5 14a7 7 0 0 0 14 0"/>', '<path d="M4 18 12 5l8 13z"/><path d="M8 18l4-6 4 6"/>', '<path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z"/><circle cx="16" cy="12" r="1.5"/>', '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 15c2-4 6-4 8 0"/>'];
@@ -96,7 +101,7 @@
 
   /* ---------- баннер ---------- */
   const hero = $('#hero'), slides = $$('.hero__slide'), texts = $$('.hero__t'), ghosts = $$('.hero__ghost span'), bars = $$('#heroBars button');
-  const heroImgs = ['hero-1', 'hero-2', 'hero-3'], heroTitles = texts.map((t) => $('h1', t).textContent);
+  const heroImgs = ['hero-1v2', 'hero-2v2', 'hero-3v2'], heroTitles = texts.map((t) => $('h1', t).textContent);
   let cur = 0, timer, paused = false;
   function go(n) {
     cur = (n + slides.length) % slides.length;
@@ -188,7 +193,14 @@
     list.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; const o = D.offices[+b.dataset.i]; open(o, pinOf(o)); });
     list.addEventListener('mouseover', (e) => { const b = e.target.closest('button'); pins.classed('is-hl', (o) => b && D.offices[+b.dataset.i] === o); });
     list.addEventListener('mouseleave', () => pins.classed('is-hl', false));
-    setRegion('all');
+    // стрелки у списка городов
+    const glBtns = $$('[data-gl]');
+    const glUpd = () => { const max = list.scrollWidth - list.clientWidth - 2; glBtns.forEach((b) => { b.disabled = b.dataset.gl < 0 ? list.scrollLeft <= 2 : list.scrollLeft >= max; }); };
+    glBtns.forEach((b) => b.addEventListener('click', () => list.scrollBy({ left: b.dataset.gl * list.clientWidth * 0.7, behavior: 'smooth' })));
+    list.addEventListener('scroll', glUpd, { passive: true });
+    addEventListener('resize', glUpd);
+    $$('#mapTabs button').forEach((b) => b.addEventListener('click', () => requestAnimationFrame(glUpd)));
+    setRegion('all'); glUpd();
   })();
 
   /* ---------- лиги: карусель-«ковёр» ---------- */
@@ -226,17 +238,63 @@
     set(0);
   })();
 
+  /* ---------- винтажный компас: блок миссии и подвал ---------- */
+  [[document.getElementById('compass'), '#B3A493', 'cpHatch', false], [document.querySelector('.compass--ft'), '#4E6B8C', 'cpHatchFt', true]].forEach(([box, hatch, hid, noRays]) => { if (box) compass(box, hatch, hid, noRays); });
+  function compass(box, hatchColor, hatchId, noRays) {
+    const C = 400, f = (n) => n.toFixed(1), pt = (r, a) => [C + r * Math.sin(a * Math.PI / 180), C - r * Math.cos(a * Math.PI / 180)];
+    let s = '';
+    // контуры «карты» и острова
+    s += `<g class="cp-map">
+      <path d="M470 120c30-18 70-10 96 8 22 15 30 40 58 46 30 6 52-12 78 2 20 12 22 38 8 58-12 18-38 22-44 44-7 26 14 52 4 78-10 24-40 30-64 22-22-8-36-30-60-30-30 0-44 30-72 34-24 3-44-14-50-36-6-20 6-40 0-60-7-22-34-32-38-56-4-26 18-50 44-60 14-6 26-8 40-18z"/>
+      <path d="M560 520c24-10 52-6 72 10 18 14 20 40 40 52 22 13 52 4 70 22 16 16 10 44-8 58-20 16-50 10-72 22-20 11-30 36-54 40-26 4-48-16-56-40-7-22 4-46-6-66-9-18-32-26-34-46-2-22 18-44 48-52z"/>
+      <path d="M120 40c18-8 40-4 52 10 10 12 8 30 20 40 14 12 38 6 48 22 8 14-2 32-18 36-20 5-38-8-58-4-18 4-30 22-48 18-18-4-26-24-22-42 3-16 18-24 18-40 0-14-8-30 8-40z"/>
+      <path d="M300 690c20-6 42 0 56 14 12 12 14 30 30 38 18 9 40 2 52 18 10 14 2 34-16 40-20 7-40-6-60-4-22 2-38 20-60 16-20-4-30-26-24-44 5-16 20-26 20-42 0-16-14-30 2-36z"/>
+      <g class="cp-dots">${Array.from({ length: 46 }, (_, i) => { const a = i * 137.5, r = 180 + (i * 53) % 330, [x, y] = pt(r, a); return `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(2 + (i % 4))}" ry="${f(1.2 + (i % 3) * 0.6)}" transform="rotate(${(i * 29) % 180} ${f(x)} ${f(y)})"/>`; }).join('')}</g>
+    </g>`;
+    // длинные лучи
+    if (!noRays) s += `<g class="cp-rays">${[-28, 22, 64, 98, 152, 205, 248].map((a) => { const [x, y] = pt(760, a); return `<line x1="${C}" y1="${C}" x2="${f(x)}" y2="${f(y)}"/>`; }).join('')}</g>`;
+    // кольца и деления
+    s += `<g class="cp-ring"><circle cx="${C}" cy="${C}" r="232"/><circle cx="${C}" cy="${C}" r="222"/><circle cx="${C}" cy="${C}" r="176"/><circle cx="${C}" cy="${C}" r="168" stroke-dasharray="2 7"/><circle cx="${C}" cy="${C}" r="96"/>`;
+    for (let a = 0; a < 360; a += 5) { const big = a % 45 === 0, [x1, y1] = pt(222, a), [x2, y2] = pt(big ? 204 : a % 15 === 0 ? 212 : 216, a); s += `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/>`; }
+    for (let a = 11.25; a < 360; a += 22.5) { const [x1, y1] = pt(176, a), [x2, y2] = pt(198, a), [hx, hy] = pt(204, a), [lx, ly] = pt(194, a - 1.6), [rx, ry] = pt(194, a + 1.6); s += `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/><path d="M${f(lx)} ${f(ly)}L${f(hx)} ${f(hy)}L${f(rx)} ${f(ry)}"/>`; }
+    s += '</g>';
+    // роза ветров со штриховкой
+    let star = '';
+    const ray = (a, len, w) => {
+      const [tx, ty] = pt(len, a), [lx, ly] = pt(w, a - 45), [rx, ry] = pt(w, a + 45);
+      return `<path class="cp-hatch" d="M${C} ${C}L${f(tx)} ${f(ty)}L${f(lx)} ${f(ly)}Z"/><path class="cp-blank" d="M${C} ${C}L${f(tx)} ${f(ty)}L${f(rx)} ${f(ry)}Z"/>`;
+    };
+    [45, 135, 225, 315].forEach((a) => { star += ray(a, 150, 30); });
+    [0, 90, 180, 270].forEach((a) => { star += ray(a, 250, 40); });
+    star += `<circle class="cp-blank" cx="${C}" cy="${C}" r="12"/><circle cx="${C}" cy="${C}" r="4"/>`;
+    s += `<g class="cp-star">${star}</g>`;
+    // подписи сторон света
+    const lbl = (t, r, a, cls) => { const [x, y] = pt(r, a); return `<text class="${cls}" x="${f(x)}" y="${f(y)}" transform="rotate(${a} ${f(x)} ${f(y)})">${t}</text>`; };
+    s += `<g class="cp-txt">${lbl('N', 262, 0, 'cp-big')}${lbl('E', 262, 90, 'cp-big')}${lbl('S', 262, 180, 'cp-big')}${lbl('W', 262, 270, 'cp-big')}${lbl('ne', 188, 45, 'cp-sm')}${lbl('se', 188, 135, 'cp-sm')}${lbl('sw', 188, 225, 'cp-sm')}${lbl('nw', 188, 315, 'cp-sm')}</g>`;
+    box.innerHTML = `<svg viewBox="0 0 800 800"><defs><pattern id="${hatchId}" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="5" stroke="${hatchColor}" stroke-width="1.1"/></pattern></defs>${s.replace(/class="cp-hatch"/g, `class="cp-hatch" fill="url(#${hatchId})"`)}</svg>`;
+    // роза плавно поворачивается при прокрутке
+    const rose = box.querySelector('.cp-star');
+    if (!reduce && !qy) {
+      let target = 0, curA = 0;
+      addEventListener('scroll', () => { target = (scrollY - box.parentElement.offsetTop) * 0.04; }, { passive: true });
+      (function spin() { curA += (target - curA) * 0.06; rose.style.transform = `rotate(${curA.toFixed(2)}deg)`; requestAnimationFrame(spin); })();
+    }
+  }
+
   /* ---------- шапка, глубина, параллакс ---------- */
+  const toTop = document.getElementById('toTop');
+  toTop.addEventListener('click', () => { lenis ? lenis.scrollTo(0, { duration: 1.6 }) : scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
   const hd = $('#hd'), pill = $('#depthPill'), dv = $('#depthV'), slidesBox = $('.hero__slides'), secs = $$('[data-depth]');
   let lastY = 0;
   function onScroll() {
     const y = scrollY, hh = hero.offsetHeight;
-    hd.classList.toggle('is-solid', y > hh - 90);
+    hd.classList.toggle('is-solid', y > 40);
     hd.classList.toggle('is-hidden-up', y > hh && y > lastY + 2 && !document.body.classList.contains('mm-open') && !dd.classList.contains('is-open'));
     if (y < lastY - 2) hd.classList.remove('is-hidden-up');
     lastY = y;
     if (!reduce && y < hh) slidesBox.style.transform = `translate3d(0, ${(y * 0.25).toFixed(1)}px, 0)`;
-    pill.classList.toggle('is-on', y > hh * 0.6);
+    pill.classList.toggle('is-on', y > hh * 0.6 && y + innerHeight < document.documentElement.scrollHeight - 90);
+    toTop.classList.toggle('is-on', y > hh * 0.8);
     const mid = y + innerHeight / 2; let d = 0;
     for (let i = 0; i < secs.length; i++) {
       const top = secs[i].offsetTop, nx = secs[i + 1], bot = nx ? nx.offsetTop : document.documentElement.scrollHeight;
