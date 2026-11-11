@@ -917,3 +917,13 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 @media (max-width: 1240px) { .hd__in { gap: 12px; } .hd__r { gap: 8px; } }
 @media (max-width: 720px) { .stat b { font-size: clamp(28px, 8.6vw, 36px); white-space: nowrap; } .stat > span:last-child { min-height: 2.9em; } }
 .md__err { font-family: var(--ff); font-style: normal; }
+
+/* логотип: эмблема + название справа */
+.brand { gap: 12px; }
+.brand .wdc-logo { height: 42px; width: auto; }
+.hd.is-solid .brand .wdc-logo { height: 38px; }
+.brand__name { font-size: 12.5px; font-weight: 600; line-height: 1.15; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.brand--light .wdc-logo { height: 58px; }
+.brand--light .brand__name { font-size: 14px; }
+@media (max-width: 1240px) and (min-width: 1061px) { .hd .brand__name { display: none; } }
+@media (max-width: 720px) { .brand .wdc-logo, .hd.is-solid .brand .wdc-logo { height: 32px; } .brand__name { font-size: 11px; } .brand--light .wdc-logo { height: 48px; } }
