@@ -946,3 +946,4 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 @media (max-width: 1240px) { .geo__thumb { width: 122px; } .geo__thumb-ph { height: 58px; } }
 .geo__thumb-open { position: relative; color: #fff; font: inherit; }
 .mm { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+@media (max-width: 720px) { #about.sec { padding-top: 40px; } }
