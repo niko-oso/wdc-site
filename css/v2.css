@@ -945,3 +945,4 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 .geo__thumb.is-closed { opacity: 0; visibility: hidden; transform: translate(-50%, calc(-100% - 8px)) scale(.9); transition: opacity .3s, visibility .3s, transform .3s; }
 @media (max-width: 1240px) { .geo__thumb { width: 122px; } .geo__thumb-ph { height: 58px; } }
 .geo__thumb-open { position: relative; color: #fff; font: inherit; }
+.mm { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }

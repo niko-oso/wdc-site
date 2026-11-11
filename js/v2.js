@@ -392,8 +392,6 @@
   function onScroll() {
     const y = scrollY, hh = hero.offsetHeight;
     hd.classList.toggle('is-solid', y > 40);
-    hd.classList.toggle('is-hidden-up', y > hh && y > lastY + 2 && !document.body.classList.contains('mm-open') && !dd.classList.contains('is-open'));
-    if (y < lastY - 2) hd.classList.remove('is-hidden-up');
     lastY = y;
     if (!reduce && y < hh) slidesBox.style.transform = `translate3d(0, ${(y * 0.25).toFixed(1)}px, 0)`;
     pill.classList.toggle('is-on', y > hh * 0.6 && y + innerHeight < document.documentElement.scrollHeight - 90);
