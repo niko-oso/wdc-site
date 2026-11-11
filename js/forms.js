@@ -53,7 +53,7 @@
   });
   const ar = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const box = document.createElement('div');
-  box.className = 'md'; box.setAttribute('aria-hidden', 'true');
+  box.className = 'md'; box.setAttribute('aria-hidden', 'true'); box.setAttribute('data-lenis-prevent', '');
   box.innerHTML = '<div class="md__veil" data-close></div><div class="md__win" role="dialog" aria-modal="true" aria-labelledby="mdTitle"><button class="md__x" data-close aria-label="' + UI.close + '"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="md__ph"><img alt=""></div><div class="md__body"></div></div>';
   document.body.appendChild(box);
   const win = box.querySelector('.md__win'), body = box.querySelector('.md__body'), img = box.querySelector('.md__ph img');
