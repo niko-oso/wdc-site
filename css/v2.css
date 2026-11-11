@@ -84,7 +84,7 @@ svg path, svg circle, svg rect { vector-effect: non-scaling-stroke; }
 
 /* ================= ШАПКА ================= */
 .hd { position: fixed; z-index: 70; top: 24px; left: 0; right: 0; transition: transform .5s var(--ease); pointer-events: none; }
-.hd.is-hidden-up { transform: translateY(-140%); }
+
 .hd__in { pointer-events: auto; width: min(1320px, 100% - 48px - 48px); margin: 0 auto; height: 64px; display: flex; align-items: center; gap: 20px; padding: 0 8px 0 18px; border-radius: 40px; color: #fff; transition: background .4s, color .4s, box-shadow .4s, width .5s var(--ease); }
 .hd.is-solid .hd__in { width: min(1320px, 100% - 32px); background: rgba(255, 255, 255, .82); backdrop-filter: blur(18px) saturate(1.5); color: var(--ink); box-shadow: 0 14px 40px -24px rgba(11, 27, 51, .5); }
 .hd.is-solid { top: 12px; }
@@ -947,3 +947,17 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 .geo__thumb-open { position: relative; color: #fff; font: inherit; }
 .mm { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 @media (max-width: 720px) { #about.sec { padding-top: 40px; } }
+
+/* мобильное меню: низ — язык (как на ПК) + «Вступить», не сжимаются */
+.mm > * { flex-shrink: 0; }
+.mm__foot { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 22px; }
+.mm__foot .cta--full { flex: 1; margin-top: 0; }
+.hd .lsw { display: block; }
+@media (max-width: 1060px) { .hd .lsw { display: none; } }
+.lsw--mm { display: block; }
+.lsw--mm .lsw__btn { height: 58px; min-width: 84px; padding: 0 16px 0 20px; font-size: 14.5px; border: 1px solid var(--line); background: #fff; }
+.lsw--mm .lsw__panel { top: auto; bottom: calc(100% + 8px); left: 0; right: auto; transform: translateY(-10px); }
+.lsw--mm.is-open .lsw__panel { transform: none; }
+@media (min-width: 1061px) { .lsw--mm { display: none; } }
+/* шапка блока на телефоне на всю ширину — ссылка «Все …» у правого края */
+@media (max-width: 720px) { .head > div:first-child { width: 100%; } }

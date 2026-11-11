@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v2.css">
+<link rel="stylesheet" href="css/v2.css?v=202611120126">
 </head>
 <body>
 
@@ -50,8 +50,13 @@
     <a href="#">WDC membership</a>
     <a href="#">About us</a>
   </nav>
-  <div class="mm__lang"><a href="index-v2.html" lang="ru">RU · Русский</a><a href="index-v2-en.html" class="is-on" lang="en">EN · English</a></div>
-  <a href="#" class="cta cta--full" data-modal="join">Join WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+  <div class="mm__foot">
+    <div class="lsw lsw--mm">
+      <button class="lang lsw__btn" aria-label="Site language" aria-expanded="false">EN <svg viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
+      <div class="lsw__panel"><a href="index-v2.html" lang="ru"><b>RU</b>Русский</a><a href="index-v2-en.html" class="is-on" lang="en"><b>EN</b>English</a></div>
+    </div>
+    <a href="#" class="cta cta--full" data-modal="join">Join WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+  </div>
 </div>
 
 <button class="totop" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
@@ -320,9 +325,9 @@
 <script src="vendor/d3.min.js"></script>
 <script src="vendor/topojson-client.min.js"></script>
 <script src="vendor/world.js"></script>
-<script src="js/data.js"></script>
-<script src="js/data-en.js"></script>
-<script src="js/v2.js"></script>
-<script src="js/forms.js"></script>
+<script src="js/data.js?v=202611120126"></script>
+<script src="js/data-en.js?v=202611120126"></script>
+<script src="js/v2.js?v=202611120126"></script>
+<script src="js/forms.js?v=202611120126"></script>
 </body>
 </html>

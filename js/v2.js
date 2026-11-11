@@ -29,8 +29,7 @@
   $('#ddGrid').innerHTML = D.committees.map((c) => `<a href="#"><i>${icon(c.k)}</i><span><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}</span></a>`).join('');
   $('#mmSub').innerHTML = D.committees.map((c) => `<a href="#">${icon(c.k)}${c.t}</a>`).join('');
   /* переключатель языка — выпадашка в стиле меню */
-  const lsw = $('#lsw');
-  if (lsw) {
+  $$('.lsw').forEach((lsw) => {
     let lT; const lBtn = $('.lsw__btn', lsw);
     const lSet = (o) => { lsw.classList.toggle('is-open', o); lBtn.setAttribute('aria-expanded', o); };
     lsw.addEventListener('mouseenter', () => { if (fine) { clearTimeout(lT); lSet(true); } });
@@ -38,7 +37,7 @@
     lBtn.addEventListener('click', () => lSet(!lsw.classList.contains('is-open')));
     document.addEventListener('click', (e) => { if (!lsw.contains(e.target)) lSet(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lSet(false); });
-  }
+  });
   const dd = $('.dd'); let ddT;
   const ddSet = (o) => { dd.classList.toggle('is-open', o); $('.dd__btn').setAttribute('aria-expanded', o); };
   dd.addEventListener('mouseenter', () => { clearTimeout(ddT); ddSet(true); });
