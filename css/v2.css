@@ -927,3 +927,21 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 .brand--light .brand__name { font-size: 14px; }
 @media (max-width: 1240px) and (min-width: 1061px) { .hd .brand__name { display: none; } }
 @media (max-width: 720px) { .brand .wdc-logo, .hd.is-solid .brand .wdc-logo { height: 32px; } .brand__name { font-size: 11px; } .brand--light .wdc-logo { height: 48px; } }
+/* точка карты: без системной рамки фокуса (она давала «чёрный квадрат», пульсирующий вместе с кольцом) */
+.pin, .pin:focus, .pin:focus-visible { outline: none; }
+.pin:focus-visible .pin__glow { opacity: 1; }
+.pin:focus-visible .pin__dot { r: 6; fill: var(--mint); }
+
+/* превью локаций на карте: панорамные фото + крестик */
+.geo__thumb { width: 150px; }
+.geo__thumb-open { display: block; width: 100%; padding: 0; text-align: left; cursor: pointer; transition: transform .45s var(--ease); }
+.geo__thumb:hover { transform: translate(-50%, calc(-100% - 20px)); }
+.geo__thumb--1:hover { transform: translate(-30%, calc(-100% - 20px)); }
+.geo__thumb:hover .geo__thumb-open { transform: translateY(-5px); }
+.geo__thumb-ph { height: 72px; }
+.geo__thumb-x { position: absolute; top: -9px; right: -9px; z-index: 2; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--ink); box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .6); cursor: pointer; transition: background .25s, color .25s, transform .3s var(--ease); }
+.geo__thumb-x svg { width: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.geo__thumb-x:hover { background: var(--accent); color: #fff; transform: rotate(90deg); }
+.geo__thumb.is-closed { opacity: 0; visibility: hidden; transform: translate(-50%, calc(-100% - 8px)) scale(.9); transition: opacity .3s, visibility .3s, transform .3s; }
+@media (max-width: 1240px) { .geo__thumb { width: 122px; } .geo__thumb-ph { height: 58px; } }
+.geo__thumb-open { position: relative; color: #fff; font: inherit; }

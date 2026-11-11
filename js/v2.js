@@ -185,6 +185,7 @@
   (function map() {
     if (!window.d3 || !window.topojson || !window.WORLD) return;
     const svg = d3.select('#mapSvg'), W = 1000, H = 520;
+    const locImg = (o) => 'img/loc/loc-' + String(D.offices.indexOf(o) + 1).padStart(2, '0') + '.webp';
     const all = topojson.feature(WORLD, WORLD.objects.countries);
     all.features = all.features.filter((f) => f.id !== '010');
     const proj = d3.geoNaturalEarth1().fitExtent([[8, 8], [W - 8, H - 8]], all), path = d3.geoPath(proj), mem = new Set(D.members);
@@ -259,7 +260,7 @@
     $$('.geo__zoom button').forEach((b) => b.addEventListener('click', () => { zoomAt(Z.s * (b.dataset.z > 0 ? 1.6 : 1 / 1.6), pan.clientWidth / 2, pan.clientHeight / 2, true); hint && hint.classList.add('is-off'); }));
     function open(o, el) {
       $$('.pin.is-active').forEach((p) => p.classList.remove('is-active')); el.classList.add('is-active');
-      $('#mcCountry').textContent = o.c; $('#mcCity').textContent = o.city; $('#mcText').textContent = o.t; $('#mcImg').src = `img/${D.regionImg[o.r]}.jpg`;
+      $('#mcCountry').textContent = o.c; $('#mcCity').textContent = o.city; $('#mcText').textContent = o.t; $('#mcImg').src = locImg(o);
       card.hidden = false;
       const fx = o.x / W, fy = o.y / H;
       if (zoomMQ.matches) { if (Z.s < 2) Z.s = 2.4; centerOn(fx, Math.max(.35, fy), true); }
@@ -271,13 +272,16 @@
     const pinOf = (o) => pins.filter((d) => d === o).node();
     pins.on('click', function (e, o) { open(o, this); }).on('keydown', function (e, o) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(o, this); } });
     $('#mcClose').addEventListener('click', () => { card.hidden = true; $$('.pin.is-active').forEach((p) => p.classList.remove('is-active')); });
-    const feat = EN ? [['Dahab', 'p-freedive', 'Blue Hole'], ['Irkutsk · Baikal', 'p-ice', 'Baikal'], ['Cairns', 'p-reef', 'Barrier Reef'], ['Cancun', 'm-cenote', 'Cenotes']] : [['Дахаб', 'p-freedive', 'Голубая дыра'], ['Иркутск · Байкал', 'p-ice', 'Байкал'], ['Кэрнс', 'p-reef', 'Барьерный риф'], ['Канкун', 'm-cenote', 'Сеноты']];
-    const thumbs = feat.map(([city, im, cap], i) => {
-      const o = D.offices.find((x) => x.city === city), el = document.createElement('button');
+    // открытые превью нескольких локаций (с крестиком — можно закрыть и увидеть точки за ними)
+    const featIdx = [20, 3, 30, 25]; // Дахаб, Байкал, Кэрнс, Канкун
+    const thumbs = featIdx.map((k, i) => {
+      const o = D.offices[k], el = document.createElement('div');
       el.className = 'geo__thumb geo__thumb--' + i; el.dataset.r = o.r;
       el.style.left = (o.x / W * 100) + '%'; el.style.top = (o.y / H * 100) + '%';
-      el.innerHTML = `<span class="geo__thumb-ph">${pic(im)}</span><span class="geo__thumb-cap">${cap}</span>`;
-      el.addEventListener('click', () => open(o, pinOf(o))); stage.appendChild(el); return el;
+      el.innerHTML = `<button class="geo__thumb-open" aria-label="${o.city}"><span class="geo__thumb-ph"><img src="${locImg(o)}" alt="" loading="lazy"></span><span class="geo__thumb-cap">${o.city.split(' · ').pop()}</span></button><button class="geo__thumb-x" aria-label="${T('Скрыть фото', 'Hide photo')}"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></button>`;
+      $('.geo__thumb-open', el).addEventListener('click', () => open(o, pinOf(o)));
+      $('.geo__thumb-x', el).addEventListener('click', (e) => { e.stopPropagation(); el.classList.add('is-closed'); });
+      stage.appendChild(el); return el;
     });
     const list = $('#mapList');
     function setRegion(r) {
