@@ -1011,3 +1011,71 @@ a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
   .cta:hover, .btn--blue:hover, .rnd--lt:hover, .totop:hover { background: #D6B97B; color: var(--on-accent); }
 }
 .sl-dots button.is-on::before { background: var(--gold-grad); }
+
+/* меню: выпадашка «Проекты» (медподготовка — первым пунктом) */
+/* пункты шапки: при наведении/открытии — сплошное золото, как иконка в выпадашке */
+.hd .dd.is-open .dd__btn, .hd.is-solid .dd.is-open .dd__btn { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+.hd .dd.is-open .dd__btn svg { stroke: var(--on-accent); }
+@media (hover: hover) {
+  .hd .pills > a:hover, .hd .dd__btn:hover, .hd.is-solid .pills > a:hover, .hd.is-solid .dd__btn:hover { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+  .hd .dd__btn:hover svg { stroke: var(--on-accent); }
+  .dd__grid a:hover i svg { stroke: var(--on-accent); }
+}
+.dd--proj .dd__panel { width: min(820px, 100vw - 40px); }
+@media (max-width: 1440px) and (min-width: 1061px) { .hd .brand__name { display: none; } }
+@media (max-width: 1240px) and (min-width: 1061px) { .pills > a, .dd__btn { padding: 0 9px; font-size: 13.5px; } .hd__r .hsoc { display: none; } }
+
+/* без обводок: плашки, чипы, круглые иконки, табы, поля ввода */
+.pills, .hd.is-solid .pills, .hd .pills, .chip, .chip--glass, .chip--dark, .link i, .rnd, .rnd--lt, .rnd--lt:disabled, .lang, .hd.is-solid .lang,
+.dir i, .seg, .geo__list button, .geo__arr, .geo__arr:disabled, .pc__tag, .mt--photo .mt__ic, .mt--brand .link i, .fc__b, .crew__tabs button, .plogo,
+.ft__soc a, .md__chips span, .mm__lang a, .lsw--mm .lsw__btn, .geo__zoom, .geo__hint, .hero__next, .chero__subs span, .chero__facts, .ccon__card { border-color: transparent !important; }
+.mt--line { border-color: transparent; background: #fff; }
+.seg, .geo__list button, .crew__tabs button, .ft__soc a, .chip--dark, .ccon__card, .chero__subs span { background-color: rgba(255, 255, 255, .1); }
+.rnd:not(.rnd--lt) { background-color: rgba(255, 255, 255, .12); }
+.md .md__f input, .md .md__f textarea { border-color: transparent; background: var(--bg); }
+.md .md__f input:focus, .md .md__f textarea:focus { border-color: transparent; background: var(--sky); box-shadow: none; }
+.md .md__f.is-bad input, .md .md__f.is-bad textarea { border-color: transparent; background: #FCE9E7; }
+.md__chips span { background: var(--bg); }
+.mm__lang a { background: var(--bg); }
+.lsw--mm .lsw__btn { background: var(--bg); }
+@media (hover: hover) { .md__chips label:hover span { background: var(--sky); } }
+
+@media (hover: hover) {
+  .btn--dark:hover, .pill-link:hover { background: var(--accent); color: var(--on-accent); }
+  .soc:hover .soc__ar { background: var(--accent); color: var(--on-accent); }
+}
+
+/* формы без внутренней прокрутки: окно компактнее, при нехватке высоты листается весь слой */
+.md { display: flex; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.md::-webkit-scrollbar { display: none; }
+.md__veil { position: fixed; }
+.md__win { margin: auto; max-height: none; overflow: hidden; flex-shrink: 0; }
+.md__body { overflow: visible; padding: 30px 34px 26px; }
+.md__lead { margin-bottom: 16px; }
+.md__form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; min-width: 0; }
+.md__f, .md__f input, .md__f textarea, .md__go { min-width: 0; width: 100%; box-sizing: border-box; }
+.md__form > * { grid-column: 1 / -1; }
+.md__form > .md__f:has(input[name=name]), .md__form > .md__f:has(input[name=contact]) { grid-column: auto; }
+.md__f input { height: 46px; }
+.md__chips { margin: 0; }
+.md__chips span { height: 34px; }
+.md__go { margin-top: 2px; }
+.md .md__f textarea { min-height: 76px; }
+@media (max-width: 720px) {
+  .md { padding: 24px 0 0; }
+  .md__win { margin: auto 0 0; width: 100%; max-height: none; }
+  .md__body { padding: 26px 18px calc(20px + env(safe-area-inset-bottom)); }
+  .md__form { grid-template-columns: 1fr; }
+  .md__form > .md__f:has(input[name=name]), .md__form > .md__f:has(input[name=contact]) { grid-column: 1 / -1; }
+}
+.btn__ar, .cta__ar, .soc__ar, .pill-link i { flex-shrink: 0; }
+/* подписка на телефоне: иконки меньше, подпись в одну строку */
+@media (max-width: 720px) {
+  .soc { gap: 12px; padding: 10px; border-radius: 22px; }
+  .soc__ic { width: 46px; height: 46px; border-radius: 15px; }
+  .soc__ic svg { width: 22px; }
+  .soc__ar { width: 40px; height: 40px; }
+  .soc__t { min-width: 0; }
+  .soc__t small { display: block; font-size: 13px; white-space: nowrap; }
+}
+@media (max-width: 370px) { .hd .brand__name { display: none; } }

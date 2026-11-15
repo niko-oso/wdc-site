@@ -29,6 +29,15 @@
       done: ['Заявка отправлена', 'Спасибо! Менеджер по партнёрствам свяжется с вами в течение рабочего дня.'],
       img: 'mission',
     },
+    chair: {
+      kicker: 'Спортивный комитет', title: 'Написать <em>руководителю</em>',
+      lead: 'Сообщение придёт председателю комитета Ирине Волковой в Telegram и на почту. Отвечаем в течение 2 рабочих дней.',
+      chipsLabel: 'Тема', chips: ['Соревнования', 'Сборная', 'Судейство', 'Другое'],
+      fields: [['name', 'Имя', 'Как к вам обращаться'], ['contact', 'Телефон или e-mail', '+7 900 000-00-00'], ['message', 'Сообщение', 'Коротко опишите вопрос', 'area']],
+      submit: 'Отправить сообщение',
+      done: ['Сообщение отправлено', 'Спасибо! Председатель комитета получил ваше сообщение и ответит в течение 2 рабочих дней.'],
+      img: 'c-sport',
+    },
   };
   const EN = document.documentElement.lang === 'en';
   const UI = EN
@@ -50,6 +59,11 @@
       chipsLabel: 'Format of interest', chips: ['Sponsorship', 'Equipment', 'Media', 'Science & ecology'],
       fields: [['company', 'Company', 'Organisation name'], ['name', 'Name', 'Contact person'], ['contact', 'Phone or e-mail', '+1 555 000 0000']],
       submit: 'Get the deck', done: ['Request sent', 'Thank you! Our partnerships manager will contact you within one business day.'] },
+    chair: { ...F.chair, kicker: 'Sports Committee', title: 'Write to <em>the chair</em>',
+      lead: 'Your message goes to committee chair Irina Volkova on Telegram and by e-mail. We reply within 2 business days.',
+      chipsLabel: 'Topic', chips: ['Competitions', 'National team', 'Judging', 'Other'],
+      fields: [['name', 'Name', 'How should we address you'], ['contact', 'Phone or e-mail', '+1 555 000 0000'], ['message', 'Message', 'Briefly describe your question', 'area']],
+      submit: 'Send message', done: ['Message sent', 'Thank you! The committee chair has received your message and will reply within 2 business days.'] },
   });
   const ar = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const box = document.createElement('div');
@@ -68,12 +82,12 @@
       <p class="md__lead">${f.lead}</p>
       <form class="md__form" novalidate>
         <fieldset class="md__chips"><legend>${f.chipsLabel}</legend>${f.chips.map((c, i) => `<label><input type="radio" name="kind" value="${c}"${i ? '' : ' checked'}><span>${c}</span></label>`).join('')}</fieldset>
-        ${f.fields.map(([n, l, p]) => `<label class="md__f"><span>${l}</span><input name="${n}" autocomplete="${n === 'contact' ? 'email' : n === 'name' ? 'name' : 'organization'}" placeholder="${p}" required><em class="md__err"></em></label>`).join('')}
+        ${f.fields.map(([n, l, p, kind]) => kind === 'area' ? `<label class="md__f"><span>${l}</span><textarea name="${n}" rows="2" placeholder="${p}" required></textarea><em class="md__err"></em></label>` : `<label class="md__f"><span>${l}</span><input name="${n}" autocomplete="${n === 'contact' ? 'email' : n === 'name' ? 'name' : 'organization'}" placeholder="${p}" required><em class="md__err"></em></label>`).join('')}
         <button class="btn btn--blue md__go" type="submit">${f.submit} <i class="btn__ar">${ar}</i></button>
         <label class="md__ok"><input type="checkbox" name="agree" checked required><span>${UI.agree}</span></label>
       </form>`;
     body.querySelector('form').addEventListener('submit', submit);
-    body.querySelectorAll('input').forEach((i) => i.addEventListener('input', () => { const w = i.closest('.md__f, .md__ok'); if (w) w.classList.remove('is-bad'); }));
+    body.querySelectorAll('input, textarea').forEach((i) => i.addEventListener('input', () => { const w = i.closest('.md__f, .md__ok'); if (w) w.classList.remove('is-bad'); }));
   }
   function bad(input, msg) {
     const w = input.closest('.md__f, .md__ok'); w.classList.add('is-bad');
@@ -82,7 +96,7 @@
   function submit(e) {
     e.preventDefault();
     const form = e.target; let ok = true, first = null;
-    form.querySelectorAll('.md__f input').forEach((i) => {
+    form.querySelectorAll('.md__f input, .md__f textarea').forEach((i) => {
       const v = i.value.trim();
       let good = v.length > 1;
       if (i.name === 'contact') good = /^\S+@\S+\.\S+$/.test(v) || v.replace(/\D/g, '').length >= 10;
