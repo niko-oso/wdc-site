@@ -1089,3 +1089,7 @@ body { background: #fff; }
 .stat:not(.stat--accent) .stat__ic { background: #fff; }
 .dir i, .about .link i, .plogo { background: var(--bg); }
 .mm { background: #fff; }
+/* партнёры: белые карточки с мягкой тенью */
+.plogo { background: #fff; box-shadow: 0 12px 30px -16px rgba(11, 27, 51, .22), 0 0 14px rgba(11, 27, 51, .07); }
+.mq { padding: 14px 0 24px; margin: -8px 0 -18px; }
+.mq + .mq { margin-top: -6px; }
