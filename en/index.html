@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WDC — the international underwater community</title>
-<meta name="description" content="WDC brings together divers, freedivers, scientists, rescuers and explorers of the underwater world: projects, committees, national dive leagues and news.">
+<meta name="description" content="WDC brings together divers, freedivers, scientists, rescuers and explorers of the underwater world: projects, committees, National Dive Leagues and news.">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="v2.css?v=w3">
+<link rel="stylesheet" href="../assets/css/main.css?v=1">
 </head>
 <body>
 
@@ -29,18 +29,21 @@
         <div class="dd__panel"><div class="dd__grid" id="ddGrid"></div></div>
       </div>
       <a href="#">Membership</a>
-      <a href="#">About us</a>
+      <div class="dd dd--list">
+        <button class="dd__btn" aria-expanded="false">About us <svg viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
+        <div class="dd__panel"><div class="dd__list"><a href="#" data-anchor="mission">Our mission</a><a href="#" data-anchor="governance">WDC governing bodies</a><a href="#" data-anchor="leagues">National Dive Leagues</a><a href="#" data-anchor="honorary">Honorary members and representatives</a><a href="#" data-anchor="partners">Partners</a></div></div>
+      </div>
       <a href="#news">News</a>
       <a href="#contacts">Contacts</a>
     </nav>
     <div class="hd__r">
-      <a href="#" class="hsoc" aria-label="Telegram"><img src="../img/tg.svg" alt=""></a>
-      <a href="#" class="hsoc soc-vk" aria-label="VK"><img src="../img/vk.svg" alt=""></a>
+      <a href="#" class="hsoc" aria-label="Telegram"><img src="../assets/img/tg.svg" alt=""></a>
+      <a href="#" class="hsoc soc-vk" aria-label="VK"><img src="../assets/img/vk.svg" alt=""></a>
       <div class="lsw" id="lsw">
         <button class="lang lsw__btn" aria-label="Site language" aria-expanded="false">EN <svg viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
-        <div class="lsw__panel"><a href="index-v2.html" lang="ru"><b>RU</b>Русский</a><a href="index-v2-en.html" class="is-on" lang="en"><b>EN</b>English</a></div>
+        <div class="lsw__panel"><a href="../index.html" lang="ru"><b>RU</b>Русский</a><a href="index.html" class="is-on" lang="en"><b>EN</b>English</a></div>
       </div>
-      <a href="#" class="cta" data-modal="join">Join WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      <a href="#" class="cta" data-modal="join">Support WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
       <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
     </div>
   </div>
@@ -51,16 +54,16 @@
     <details><summary>Projects</summary><div class="mm__sub" id="mmProj"></div></details>
     <details><summary>Committees</summary><div class="mm__sub" id="mmSub"></div></details>
     <a href="#">WDC membership</a>
-    <a href="#">About us</a>
+    <details><summary>About us</summary><div class="mm__sub mm__sub--plain"><a href="#" data-anchor="mission">Our mission</a><a href="#" data-anchor="governance">WDC governing bodies</a><a href="#" data-anchor="leagues">National Dive Leagues</a><a href="#" data-anchor="honorary">Honorary members and representatives</a><a href="#" data-anchor="partners">Partners</a></div></details>
     <a href="#news">News</a>
     <a href="#contacts">Contacts</a>
   </nav>
   <div class="mm__foot">
     <div class="lsw lsw--mm">
       <button class="lang lsw__btn" aria-label="Site language" aria-expanded="false">EN <svg viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
-      <div class="lsw__panel"><a href="index-v2.html" lang="ru"><b>RU</b>Русский</a><a href="index-v2-en.html" class="is-on" lang="en"><b>EN</b>English</a></div>
+      <div class="lsw__panel"><a href="../index.html" lang="ru"><b>RU</b>Русский</a><a href="index.html" class="is-on" lang="en"><b>EN</b>English</a></div>
     </div>
-    <a href="#" class="cta cta--full" data-modal="join">Join WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+    <a href="#" class="cta cta--full" data-modal="join">Support WDC <i class="cta__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
   </div>
 </div>
 
@@ -74,9 +77,9 @@
 <section class="hero" id="hero" data-depth="0">
   <div class="hero__frame">
     <div class="hero__slides">
-      <div class="hero__slide is-on"><img src="../img/hero-1v2.jpg" alt="" fetchpriority="high" style="object-position:68% 50%"></div>
-      <div class="hero__slide"><img src="../img/hero-2v2.jpg" alt="" style="object-position:62% 50%"></div>
-      <div class="hero__slide"><img src="../img/hero-3v2.jpg" alt="" style="object-position:70% 50%"></div>
+      <div class="hero__slide is-on"><img src="../assets/img/hero-1v2.jpg" alt="" fetchpriority="high" style="object-position:68% 50%"></div>
+      <div class="hero__slide"><img src="../assets/img/hero-2v2.jpg" alt="" style="object-position:62% 50%"></div>
+      <div class="hero__slide"><img src="../assets/img/hero-3v2.jpg" alt="" style="object-position:70% 50%"></div>
     </div>
     <div class="hero__veil"></div>
     <div class="hero__ghost" aria-hidden="true"><span class="is-on">DEPTH</span><span>BREATH</span><span>HISTORY</span></div>
@@ -100,16 +103,16 @@
         </div>
       </div>
       <div class="hero__act">
-        <a href="#" class="btn btn--light mag" data-modal="join"><span id="heroCta">Join WDC</span> <i class="btn__ar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
+        <a href="#" class="btn btn--light mag" data-modal="join"><span id="heroCta">Support WDC</span> <i class="btn__ar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
         <div class="crowd">
-          <span class="crowd__av"><img src="../img/l-2.jpg" alt=""><img src="../img/l-6.jpg" alt=""><img src="../img/l-12.jpg" alt=""><img src="../img/l-1.jpg" alt=""></span>
-          <span><b>48,000+</b> divers<br>in national leagues</span>
+          <span class="crowd__av"><img src="../assets/img/l-2.jpg" alt=""><img src="../assets/img/l-6.jpg" alt=""><img src="../assets/img/l-12.jpg" alt=""><img src="../assets/img/l-1.jpg" alt=""></span>
+          <span><b>100,000+</b> divers<br>worldwide</span>
         </div>
       </div>
     </div>
 
     <button class="hero__next" id="heroNextCard" aria-label="Next slide">
-      <span class="hero__next-ph"><img id="hnImg" src="../img/hero-2v2.jpg" alt=""></span>
+      <span class="hero__next-ph"><img id="hnImg" src="../assets/img/hero-2v2.jpg" alt=""></span>
       <span class="hero__next-b"><small>Next</small><b id="hnTitle">Freediving World Cup 2027</b></span>
       <i class="hero__next-ar"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i>
     </button>
@@ -126,14 +129,14 @@
   <div class="compass" id="compass" aria-hidden="true"></div>
   <div class="wrap about__in">
     <div class="collage rv">
-      <figure class="collage__a"><img src="../img/p-eco.jpg" alt="Diver and a sea turtle" loading="lazy"></figure>
-      <figure class="collage__b"><img src="../img/c-exp.jpg" alt="WDC expedition" loading="lazy"></figure>
-      <figure class="collage__c"><img src="../img/mission.jpg" alt="Dive boat" loading="lazy"></figure>
+      <figure class="collage__a"><img src="../assets/img/p-eco.jpg" alt="Diver and a sea turtle" loading="lazy"></figure>
+      <figure class="collage__b"><img src="../assets/img/c-exp.jpg" alt="WDC expedition" loading="lazy"></figure>
+      <figure class="collage__c"><img src="../assets/img/mission.jpg" alt="Dive boat" loading="lazy"></figure>
     </div>
     <div class="about__txt rv">
       <span class="chip">What WDC does</span>
       <h2 class="h2">Growing the underwater world — from the first breath underwater to <em>world records</em></h2>
-      <p>WDC is an open platform for national dive leagues, clubs, schools and professionals. We set training standards, run competitions and expeditions, support science and protect the ocean.</p>
+      <p>The World Diving Confederation is an international non-profit organisation that brings together people from every corner of the planet who care about the Ocean. We set educational standards, run competitions and expeditions, carry out scientific and cultural initiatives, and protect nature.</p>
       <div class="dirs">
         <div class="dir"><i><svg viewBox="0 0 24 24"><path d="M3 9l9-4.5L21 9l-9 4.5z"/><path d="M6.5 11v4.5c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3V11"/></svg></i><span>Education</span></div>
         <div class="dir"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13.5 7 21l5-2.5 5 2.5-2-7.5"/></svg></i><span>Sport</span></div>
@@ -143,11 +146,10 @@
       <a href="#" class="btn btn--dark mag about__btn">About the WDC mission <i class="btn__ar"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
     </div>
   </div>
-  <div class="wrap stats" id="stats">
-    <div class="stat rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><b data-count="34">0</b><span>member countries</span></div>
-    <div class="stat stat--accent rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><b data-count="52">0</b><span>offices on 6 continents</span></div>
-    <div class="stat rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3.3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.6 3.5 6"/></svg></span><b data-count="48000" data-suffix="+">0</b><span>divers in the leagues</span></div>
-    <div class="stat rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM12 13v4M8.5 21h7M10 17h4v4h-4z"/></svg></span><b data-count="120">0</b><span>projects since 2015</span></div>
+  <div class="wrap stats stats--3" id="stats">
+    <div class="stat rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></span><b data-count="12">0</b><span>committees</span></div>
+    <div class="stat stat--accent rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><b data-count="47">0</b><span>countries</span></div>
+    <div class="stat rv"><span class="stat__ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3.3-6 6.5-6s6 2 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.3 2.6 3.5 6"/></svg></span><b data-count="100000" data-suffix="+">0</b><span>divers worldwide</span></div>
   </div>
 </section>
 
@@ -169,7 +171,7 @@
       <div class="geo__stage" id="geoStage">
         <svg class="geo__svg" id="mapSvg" viewBox="0 0 1000 520" role="img" aria-label="Map of WDC offices"></svg>
         <div class="geo__card" id="mapCard" hidden>
-          <span class="geo__card-ph"><img id="mcImg" src="../img/p-reef.jpg" alt=""></span>
+          <span class="geo__card-ph"><img id="mcImg" src="../assets/img/p-reef.jpg" alt=""></span>
           <span class="geo__card-b"><small id="mcCountry"></small><b id="mcCity"></b><span id="mcText"></span></span>
           <button class="geo__card-x" id="mcClose" aria-label="Close">×</button>
         </div>
@@ -213,7 +215,7 @@
     <div class="head rv">
       <div>
         <span class="chip">Structure</span>
-        <h2 class="h2">13 committees — <em>13 depths</em> of one community</h2>
+        <h2 class="h2">12 committees — <em>12 depths</em> of one community</h2>
       </div>
       <div class="head__side">
         <a href="#" class="alink">All committees <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -234,7 +236,7 @@
       <div class="crew__head">
         <div>
           <span class="chip chip--dark">Members</span>
-          <h2 class="h2 h2--light">National <em>dive leagues</em></h2>
+          <h2 class="h2 h2--light">National <em>Dive Leagues</em></h2>
         </div>
         <p>Leagues are the backbone of WDC. Meet the people developing underwater activities in their countries.</p>
       </div>
@@ -290,7 +292,7 @@
 <section class="sec sec--tight" id="subscribe" data-depth="160">
   <div class="wrap">
     <div class="sub rv">
-      <div class="sub__bg" aria-hidden="true"><img src="../img/jellies.jpg" alt="" loading="lazy"></div>
+      <div class="sub__bg" aria-hidden="true"><img src="../assets/img/jellies.jpg" alt="" loading="lazy"></div>
       <div class="sub__txt">
         <span class="chip chip--glass">Stay in touch</span>
         <h2 class="h2 h2--light">Follow WDC<br><em>on social media</em></h2>
@@ -316,9 +318,9 @@
         <p>The international underwater community: sport, science, education and expeditions.</p>
       </div>
       <div class="ft__col"><b>Activities</b><a href="#projects">Projects</a><a href="#">Medical training</a><a href="#committees">Committees</a><a href="#news">News</a></div>
-      <div class="ft__col"><b>WDC</b><a href="#">About us</a><a href="#">History</a><a href="#leagues">National leagues</a><a href="#partners">Partners</a><a href="#">Membership</a></div>
-      <div class="ft__col"><b>Contacts</b><a href="tel:+74950000000" class="ft__big">+7 (495) 000-00-00</a><a href="mailto:info@wdc.org">info@wdc.org</a><span>1 Primernaya St, Moscow</span>
-        <div class="ft__soc"><a href="#" aria-label="Telegram"><img src="../img/tg.svg" alt=""></a><a href="#" class="soc-vk" aria-label="VK"><img src="../img/vk.svg" alt=""></a></div>
+      <div class="ft__col"><b>WDC</b><a href="#">About us</a><a href="#">History</a><a href="#leagues">National Dive Leagues</a><a href="#partners">Partners</a><a href="#">Membership</a></div>
+      <div class="ft__col"><b>Contacts</b><a href="mailto:info@wdc-global.org" class="ft__big">info@wdc-global.org</a><span>11 Pravdy St, Saint11 Pravdy St, Saint Petersburg, Russian Federationnbsp;Petersburg, Russian11 Pravdy St, Saint Petersburg, Russian Federationnbsp;Federation</span>
+        <div class="ft__soc"><a href="#" aria-label="Telegram"><img src="../assets/img/tg.svg" alt=""></a><a href="#" class="soc-vk" aria-label="VK"><img src="../assets/img/vk.svg" alt=""></a></div>
       </div>
     </div>
     <div class="ft__gap"></div>
@@ -326,13 +328,13 @@
   </div>
 </footer>
 
-<script src="../vendor/lenis.min.js"></script>
-<script src="../vendor/d3.min.js"></script>
-<script src="../vendor/topojson-client.min.js"></script>
-<script src="../vendor/world.js"></script>
-<script src="../js/data.js?v=202611131715"></script>
-<script src="../js/data-en.js?v=202611131715"></script>
-<script src="v2.js?v=c5"></script>
-<script src="forms.js?v=c3"></script>
+<script src="../assets/vendor/lenis.min.js"></script>
+<script src="../assets/vendor/d3.min.js"></script>
+<script src="../assets/vendor/topojson-client.min.js"></script>
+<script src="../assets/vendor/world.js"></script>
+<script src="../assets/js/data.js?v=1"></script>
+<script src="../assets/js/data-en.js?v=1"></script>
+<script src="../assets/js/main.js?v=1"></script>
+<script src="../assets/js/forms.js?v=1"></script>
 </body>
 </html>

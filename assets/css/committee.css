@@ -191,3 +191,7 @@
   .ccon__card .btn .btn__ar { width: 36px; height: 36px; }
 }
 @media (max-width: 1240px) and (min-width: 721px) { .lead__grid .mem__ph { flex: none; height: 300px; } }
+/* gold2: карточки задач на белом фоне — кремовые */
+.task { background: var(--bg); }
+.task i { background: #fff; }
+.ccon__list a.ccon__mail { white-space: normal; }

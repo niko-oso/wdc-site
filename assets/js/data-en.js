@@ -1,4 +1,4 @@
-/* WDC — English content for index-v2-en.html. Loaded after data.js: replaces texts, keeps icons, images and map codes. */
+/* WDC — English content for en/index.html. Loaded after data.js: replaces texts, keeps icons, images and map codes. */
 (function (D) {
   const img = (arr) => arr.map((x) => x.img);
 
@@ -6,11 +6,10 @@
   D.committees = [
     { k: 'sport', t: 'Sports', d: 'Competitions, rankings and national teams. Three subcommittees:', sub: ['Freediving', 'Scuba diving', 'Phygital diving'], wide: true },
     { k: 'edu', t: 'Education', d: 'Training programmes for instructors and divers of every level' },
-    { k: 'exp', t: 'Expeditions', d: 'Expeditions to the most remote waters of the world' },
-    { k: 'youth', t: 'Youth', d: 'Children’s and youth schools, camps and first dives' },
+    { k: 'youth', t: 'Children & Youth', d: 'Children’s and youth schools, camps and first dives. Subcommittees:', sub: ['Children’s swimming', 'Children’s diving'] },
     { k: 'std', t: 'Standards & Certification', d: 'GOST and ISO standards for the underwater industry' },
     { k: 'rec', t: 'World Records', d: 'Recording and judging records under international rules' },
-    { k: 'sci', t: 'Science', d: 'Research into the underwater world and its history. Subcommittees:', sub: ['History', 'Archaeology'], wide: true },
+    { k: 'sci', t: 'Science', d: 'Research into the underwater world and its history', wide: true },
     { k: 'sar', t: 'Search & Rescue', d: 'Training rescuers and supporting search operations' },
     { k: 'tech', t: 'Technology', d: 'Equipment, underwater drones and digital solutions' },
     { k: 'eco', t: 'Ecology', d: 'Cleaning waters and protecting reefs and marine life' },

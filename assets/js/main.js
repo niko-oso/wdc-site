@@ -1,11 +1,13 @@
-/* WDC — главная, версия 2: поведение */
+/* WDC — поведение страниц (главная и страницы комитетов) */
 (function () {
+  const ASSETS = (document.currentScript ? document.currentScript.src : '').replace(/js\/[^/]*$/, ''); // …/assets/
+  const ROOT = ASSETS.replace(/assets\/$/, ''); // корень сайта
   const D = window.WDC, $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const qy = +new URLSearchParams(location.search).get('y'); // предпросмотр для проверки вёрстки
   const icon = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${D.icons[k]}</svg>`;
-  const pic = (n, alt) => `<img src="img/${n}.jpg" alt="${alt || ''}" loading="${qy ? 'eager' : 'lazy'}" decoding="async">`;
+  const pic = (n, alt) => `<img src="${ASSETS}img/${n}.jpg" alt="${alt || ''}" loading="${qy ? 'eager' : 'lazy'}" decoding="async">`;
   const arUp = '<svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>';
   const n2 = (i) => String(i + 1).padStart(2, '0');
   const clean = (d) => d.replace(/\s*(Три подкомитета|Подкомитеты|Three subcommittees|Subcommittees):$/, '');
@@ -26,8 +28,15 @@
   }));
 
   /* ---------- меню ---------- */
-  $('#ddGrid').innerHTML = D.committees.map((c) => `<a href="#"><i>${icon(c.k)}</i><span><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}</span></a>`).join('');
-  $('#mmSub').innerHTML = D.committees.map((c) => `<a href="#">${icon(c.k)}${c.t}</a>`).join('');
+  const P = window.WDC_PAGE || {};
+  const comHref = (c) => (c.k === 'sport' ? ROOT + (EN ? 'en/' : '') + 'committees/sport.html' : '#');
+  const medIc = '<path d="M12 19s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 9c0 5.6-7 10-7 10z"/><path d="M12 7.5v5M9.5 10h5"/>';
+  const medT = T('Медицинская подготовка', 'Medical training');
+  const tagIc = { 'Спорт': 'sport', 'Sport': 'sport', 'Наука': 'sci', 'Science': 'sci', 'Экология': 'eco', 'Ecology': 'eco', 'Экспедиции': 'exp', 'Expeditions': 'exp', 'Парадайвинг': 'para', 'Para-diving': 'para', 'Молодёжь': 'youth', 'Youth': 'youth', 'Культура': 'art', 'Culture': 'art' };
+  if ($('#ddGrid')) $('#ddGrid').innerHTML = D.committees.map((c) => `<a href="${comHref(c)}"><i>${icon(c.k)}</i><span><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}</span></a>`).join('');
+  if ($('#mmSub')) $('#mmSub').innerHTML = D.committees.map((c) => `<a href="${comHref(c)}">${icon(c.k)}${c.t}</a>`).join('');
+  if ($('#ddProj')) $('#ddProj').innerHTML = `<a href="#" class="dd__feat"><i><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg></i><span><b>${medT}</b><small>${T('Курсы первой помощи и дайв-медицины', 'First aid and dive medicine courses')}</small></span></a>` + D.projects.map((p) => `<a href="#"><i>${icon(tagIc[p.tag] || 'exp')}</i><span><b>${p.t}</b><small>${p.tag}</small></span></a>`).join('');
+  if ($('#mmProj')) $('#mmProj').innerHTML = `<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg>${medT}</a>` + D.projects.map((p) => `<a href="#">${icon(tagIc[p.tag] || 'exp')}${p.t}</a>`).join('');
   /* переключатель языка — выпадашка в стиле меню */
   $$('.lsw').forEach((lsw) => {
     let lT; const lBtn = $('.lsw__btn', lsw);
@@ -38,11 +47,16 @@
     document.addEventListener('click', (e) => { if (!lsw.contains(e.target)) lSet(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lSet(false); });
   });
-  const dd = $('.dd'); let ddT;
-  const ddSet = (o) => { dd.classList.toggle('is-open', o); $('.dd__btn').setAttribute('aria-expanded', o); };
-  dd.addEventListener('mouseenter', () => { clearTimeout(ddT); ddSet(true); });
-  dd.addEventListener('mouseleave', () => { ddT = setTimeout(() => ddSet(false), 200); });
-  $('.dd__btn').addEventListener('click', () => ddSet(!dd.classList.contains('is-open')));
+  const dds = $$('.pills .dd');
+  const ddSetOne = (dd, o) => { dd.classList.toggle('is-open', o); $('.dd__btn', dd).setAttribute('aria-expanded', o); };
+  const ddSet = (o) => dds.forEach((dd) => ddSetOne(dd, o));
+  dds.forEach((dd) => {
+    let ddT;
+    dd.addEventListener('mouseenter', () => { clearTimeout(ddT); dds.forEach((x) => x !== dd && ddSetOne(x, false)); ddSetOne(dd, true); });
+    dd.addEventListener('mouseleave', () => { ddT = setTimeout(() => ddSetOne(dd, false), 200); });
+    $('.dd__btn', dd).addEventListener('click', () => ddSetOne(dd, !dd.classList.contains('is-open')));
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.pills .dd')) ddSet(false); });
   const burger = $('#burger'), mm = $('#mm');
   function closeMenu() { document.body.classList.remove('mm-open'); burger.setAttribute('aria-expanded', false); mm.setAttribute('aria-hidden', true); lenis && lenis.start(); }
   burger.addEventListener('click', () => {
@@ -53,7 +67,7 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { ddSet(false); closeMenu(); } });
 
   /* ---------- проекты ---------- */
-  $('#projGrid').innerHTML = D.projects.map((p, i) => `
+  if ($('#projGrid')) $('#projGrid').innerHTML =D.projects.map((p, i) => `
     <a href="#" class="pc rv" style="--i:${Math.min(i, 3)}">
       <span class="pc__ph">${pic(p.img, p.t)}</span>
       <span class="pc__tag">${p.tag}</span>
@@ -62,15 +76,15 @@
     </a>`).join('');
 
   /* ---------- комитеты: слайдер ---------- */
-  $('#comGrid').innerHTML = D.committees.map((c, i) => `
-    <a href="#" class="cc rv" style="--i:${Math.min(i, 3)}">
+  if ($('#comGrid')) $('#comGrid').innerHTML =D.committees.map((c, i) => `
+    <a href="${comHref(c)}" class="cc rv" style="--i:${Math.min(i, 3)}">
       <span class="cc__ph">${pic(c.img, c.t)}<span class="cc__n">${n2(i)}</span></span>
       <i class="cc__ic">${icon(c.k)}</i>
       <span class="cc__b"><small>${c.sub ? c.sub.join(' · ') : T('Комитет', 'Committee')}</small><h3>${c.t}</h3><p>${clean(c.d).replace(/\.$/, '')}</p><span class="nc__more">${T('Подробнее', 'Read more')}<i>${arUp}</i></span></span>
     </a>`).join('');
 
   /* ---------- новости ---------- */
-  $('#newsGrid').innerHTML = D.news.map((n, i) => `
+  if ($('#newsGrid')) $('#newsGrid').innerHTML = (P.news || D.news).map((n, i) => `
     <a href="#" class="nc rv" style="--i:${Math.min(i, 3)}">
       <span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span>
       <span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">${T('Подробнее', 'Read more')}<i>${arUp}</i></span></span>
@@ -88,10 +102,10 @@
   function placeSliderCtrls() {
     sliderHeads.forEach(({ side, chip, link, nav, btns, dots, row, bar }) => {
       if (mobMQ.matches) {
-        if (!row.isConnected) { chip.before(row); row.append(chip, link); }
+        if (!row.isConnected) { chip.before(row); row.append(chip); if (link) row.append(link); }
         if (!bar.isConnected) { dots.before(bar); bar.append(btns[0], dots, btns[1]); }
       } else {
-        if (row.isConnected) { row.before(chip); side.prepend(link); row.remove(); }
+        if (row.isConnected) { row.before(chip); if (link) side.prepend(link); row.remove(); }
         if (bar.isConnected) { bar.before(dots); nav.append(...btns); bar.remove(); }
       }
     });
@@ -129,6 +143,7 @@
   const marks = ['<path d="M3 14c3-3 6-3 9 0s6 3 9 0"/><path d="M3 9c3-3 6-3 9 0s6 3 9 0"/>', '<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>', '<path d="M12 3v15M7 8h10M5 14a7 7 0 0 0 14 0"/>', '<path d="M4 18 12 5l8 13z"/><path d="M8 18l4-6 4 6"/>', '<path d="M3 12c4-6 14-6 18 0-4 6-14 6-18 0z"/><circle cx="16" cy="12" r="1.5"/>', '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 15c2-4 6-4 8 0"/>'];
   const half = Math.ceil(D.partners.length / 2);
   [[$('#mq1'), D.partners.slice(0, half)], [$('#mq2'), D.partners.slice(half)]].forEach(([el, arr]) => {
+    if (!el) return;
     const h = arr.map((p, i) => `<span class="plogo"><svg viewBox="0 0 24 24">${marks[i % marks.length]}</svg>${p}</span>`).join('');
     $('.mq__track', el).innerHTML = `<div class="mq__set">${h}</div><div class="mq__set" aria-hidden="true">${h}</div>`;
   });
@@ -141,13 +156,14 @@
     cur = (n + slides.length) % slides.length;
     [slides, texts, ghosts, bars].forEach((arr) => arr.forEach((el, i) => el.classList.toggle('is-on', i === cur)));
     $('#heroNum').textContent = n2(cur);
-    $('#heroCta').textContent = (EN ? ['Join WDC', 'Take part', 'Read the story'] : ['Вступить в WDC', 'Принять участие', 'Читать репортаж'])[cur];
+    $('#heroCta').textContent = (EN ? ['Support WDC', 'Take part', 'Read the story'] : ['Поддержать WDC', 'Принять участие', 'Читать репортаж'])[cur];
     $('#heroCta').parentElement.dataset.modal = ['join', 'cup', ''][cur];
     const nx = (cur + 1) % slides.length;
-    $('#hnImg').src = `img/${heroImgs[nx]}.jpg`; $('#hnTitle').textContent = heroTitles[nx];
+    $('#hnImg').src = `${ASSETS}img/${heroImgs[nx]}.jpg`; $('#hnTitle').textContent = heroTitles[nx];
     restart();
   }
   function restart() { clearTimeout(timer); if (!paused && !reduce) timer = setTimeout(() => go(cur + 1), 7000); }
+  if (hero) {
   bars.forEach((b, i) => b.addEventListener('click', () => go(i)));
   $('#heroNextCard').addEventListener('click', () => go(cur + 1));
   hero.addEventListener('mouseenter', () => { paused = true; hero.classList.add('is-paused'); clearTimeout(timer); });
@@ -156,6 +172,7 @@
   hero.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
   hero.addEventListener('touchend', (e) => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1)); tx = null; });
   go(0);
+  }
 
   /* ---------- магнитные кнопки ---------- */
   if (fine && !reduce) $$('.mag').forEach((el) => {
@@ -178,13 +195,13 @@
       reduce || qy ? (el.textContent = fmt(to) + suf) : requestAnimationFrame(step);
     });
   }), { threshold: 0.3 });
-  cio.observe($('#stats'));
+  $$('.stats, [data-counters]').forEach((el) => cio.observe(el));
 
   /* ---------- карта ---------- */
-  (function map() {
+  if ($('#mapSvg')) (function map() {
     if (!window.d3 || !window.topojson || !window.WORLD) return;
     const svg = d3.select('#mapSvg'), W = 1000, H = 520;
-    const locImg = (o) => 'img/loc/loc-' + String(D.offices.indexOf(o) + 1).padStart(2, '0') + '.webp';
+    const locImg = (o) => ASSETS + 'img/loc/loc-' + String(D.offices.indexOf(o) + 1).padStart(2, '0') + '.webp';
     const all = topojson.feature(WORLD, WORLD.objects.countries);
     all.features = all.features.filter((f) => f.id !== '010');
     const proj = d3.geoNaturalEarth1().fitExtent([[8, 8], [W - 8, H - 8]], all), path = d3.geoPath(proj), mem = new Set(D.members);
@@ -305,7 +322,7 @@
   })();
 
   /* ---------- лиги: карусель-«ковёр» ---------- */
-  (function flow() {
+  if ($('#flow')) (function flow() {
     const box = $('#flow'), tabs = $('#flowTabs');
     const people = []; D.leagues.forEach((L, li) => L.people.forEach((p) => people.push({ ...p, li, L })));
     box.innerHTML = people.map((p, i) => `<div class="fc" data-i="${i}">${pic(p.img, p.n)}<div class="fc__b"><span class="fc__lg"><i>${p.L.code}</i>${p.L.country}</span><b>${p.n}</b><span class="fc__r">${p.r}</span><span class="fc__bio">${p.b}</span></div></div>`).join('');
@@ -389,10 +406,10 @@
   const hd = $('#hd'), pill = $('#depthPill'), dv = $('#depthV'), slidesBox = $('.hero__slides'), secs = $$('[data-depth]');
   let lastY = 0;
   function onScroll() {
-    const y = scrollY, hh = hero.offsetHeight;
+    const y = scrollY, hh = hero ? hero.offsetHeight : 600;
     hd.classList.toggle('is-solid', y > 40);
     lastY = y;
-    if (!reduce && y < hh) slidesBox.style.transform = `translate3d(0, ${(y * 0.25).toFixed(1)}px, 0)`;
+    if (!reduce && slidesBox && y < hh) slidesBox.style.transform = `translate3d(0, ${(y * 0.25).toFixed(1)}px, 0)`;
     pill.classList.toggle('is-on', y > hh * 0.6 && y + innerHeight < document.documentElement.scrollHeight - 90);
     toTop.classList.toggle('is-on', y > hh * 0.8);
     const mid = y + innerHeight / 2; let d = 0;
@@ -410,4 +427,25 @@
     document.head.insertAdjacentHTML('beforeend', '<style>*,*::before,*::after{transition:none!important;animation-duration:0s!important;animation-delay:0s!important}</style>');
     addEventListener('load', () => { $$('.rv').forEach((e) => e.classList.add('is-in')); scrollTo({ top: qy, behavior: 'instant' }); });
   }
+})();
+
+/* типограф: короткие предлоги, союзы и частицы не висят в конце строки, тире не начинает строку */
+(function () {
+  const EN = document.documentElement.lang === 'en';
+  const words = EN
+    ? 'a|an|the|of|to|in|on|at|by|for|and|or|as|is|we|our|with|from|into|via'
+    : 'в|во|к|ко|с|со|у|о|об|обо|от|до|на|по|за|из|изо|без|для|под|подо|над|при|про|через|и|а|но|да|или|ни|не|что|как|чем|это|все|всё|мы|вы|он|она|их|его|её';
+  const re = new RegExp('(^|[\\s\\u00a0(\\u00ab"\\u201e\\u2014\\u2013-])(' + words + ')\\s+', 'giu');
+  const SKIP = /^(SCRIPT|STYLE|TEXTAREA|INPUT|SVG|CODE|PRE)$/;
+  const fix = (s) => s.replace(re, '$1$2 ').replace(re, '$1$2 ').replace(/\s+([—–])\s/g, ' $1 ');
+  function run(root) {
+    if (!root) return;
+    if (root.nodeType === 3) { const v = fix(root.nodeValue); if (v !== root.nodeValue) root.nodeValue = v; return; }
+    if (root.nodeType !== 1 || SKIP.test(root.nodeName)) return;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.parentElement && n.parentElement.closest('script,style,textarea,svg,code,pre') ? 2 : 1) });
+    let n; while ((n = w.nextNode())) { const v = fix(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; }
+  }
+  run(document.body);
+  new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(run))).observe(document.body, { childList: true, subtree: true });
+  window.wdcTypo = run;
 })();
