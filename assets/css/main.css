@@ -915,7 +915,6 @@ html.md-lock, html.md-lock body { overflow: hidden; }
 .lsw__panel b { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; font-size: 11.5px; font-weight: 700; background: var(--sky); color: var(--accent-t); transition: .2s; }
 .lsw__panel a.is-on b { background: var(--accent); color: var(--on-accent); }
 @media (hover: hover) { .lsw__panel a:hover b { background: var(--accent); color: var(--on-accent); } }
-.lsw__panel a.is-on::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-left: auto; }
 @media (max-width: 1060px) { .lsw { display: none; } }
 /* язык в мобильном меню */
 .mm__lang { display: flex; gap: 8px; margin: auto 0 14px; padding-top: 22px; }
