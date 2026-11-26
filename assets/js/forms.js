@@ -66,6 +66,9 @@
       fields: [['name', 'Name', 'How should we address you'], ['contact', 'Phone or e-mail', '+1 555 000 0000'], ['message', 'Message', 'Briefly describe your question', 'area']],
       submit: 'Send message', done: ['Message sent', 'Thank you! The committee chair has received your message and will reply within 2 business days.'] },
   });
+  // страница комитета может подменить тексты формы «Написать руководителю» (window.WDC_PAGE.chair)
+  const PC = window.WDC_PAGE && window.WDC_PAGE.chair;
+  if (PC) F.chair = { ...F.chair, ...PC };
   const ar = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const box = document.createElement('div');
   box.className = 'md'; box.setAttribute('aria-hidden', 'true'); box.setAttribute('data-lenis-prevent', '');

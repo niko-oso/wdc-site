@@ -195,3 +195,26 @@
 .task { background: var(--bg); }
 .task i { background: #fff; }
 .ccon__list a.ccon__mail { white-space: normal; }
+
+/* одиночная карточка председателя (комитет без слайдера членов) */
+.lead--solo { grid-template-columns: 1fr; }
+.lead--solo .lead__chair { grid-template-columns: minmax(300px, 420px) 1fr; }
+.lead--solo .lead__ph { min-height: 520px; }
+.lead--solo .lead__b { padding: 44px 48px; }
+.lead--solo .lead__b > p { max-width: 760px; font-size: 16px; }
+.lead--solo .lead__b > p + p { margin-top: 12px; }
+@media (max-width: 720px) {
+  .lead--solo .lead__chair { grid-template-columns: 1fr; }
+  .lead--solo .lead__ph { min-height: 380px; }
+  .lead--solo .lead__b { padding: 22px 20px; }
+  .lead--solo .lead__b > p { font-size: 15px; }
+}
+/* пять карточек компетенций: 3 + 2 */
+.tasks--5 { margin-top: 0; }
+@media (min-width: 1061px) {
+  .tasks--5 { grid-template-columns: repeat(6, 1fr); }
+  .tasks--5 .task { grid-column: span 2; }
+  .tasks--5 .task:nth-child(4) { grid-column: 2 / span 2; }
+}
+/* плашки регалий: длинный текст переносится внутри плашки, а не вылезает */
+.lead__reg li { height: auto; min-height: 30px; padding: 6px 12px; line-height: 1.3; }

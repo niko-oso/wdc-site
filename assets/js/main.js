@@ -29,7 +29,8 @@
 
   /* ---------- меню ---------- */
   const P = window.WDC_PAGE || {};
-  const comHref = (c) => (c.k === 'sport' ? ROOT + (EN ? 'en/' : '') + 'committees/sport.html' : '#');
+  const comPages = { sport: 'sport', law: 'legal' }; // готовые страницы комитетов (RU и EN)
+  const comHref = (c) => (comPages[c.k] ? ROOT + (EN ? 'en/' : '') + 'committees/' + comPages[c.k] + '.html' : '#');
   const medIc = '<path d="M12 19s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 9c0 5.6-7 10-7 10z"/><path d="M12 7.5v5M9.5 10h5"/>';
   const medT = T('Медицинская подготовка', 'Medical training');
   const tagIc = { 'Спорт': 'sport', 'Sport': 'sport', 'Наука': 'sci', 'Science': 'sci', 'Экология': 'eco', 'Ecology': 'eco', 'Экспедиции': 'exp', 'Expeditions': 'exp', 'Парадайвинг': 'para', 'Para-diving': 'para', 'Молодёжь': 'youth', 'Youth': 'youth', 'Культура': 'art', 'Culture': 'art' };
