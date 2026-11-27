@@ -1,0 +1,203 @@
+/* ================= СТРАНИЦА ПРОЕКТА ================= */
+/* баннер — общий с комитетом (.chero в committee.css) */
+.pjhero .chero__body { padding-bottom: 96px; }
+
+/* о проекте в цифрах — узкая строка под баннером */
+.pjnum { position: relative; z-index: 3; margin-top: -58px; }
+.pjnum__bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; padding: 10px; border-radius: 28px; background: #fff; box-shadow: 0 24px 60px -30px rgba(11, 27, 51, .35); }
+.pjnum__bar div { padding: 16px 22px; display: flex; flex-direction: column; gap: 6px; }
+.pjnum__bar div + div { box-shadow: inset 1px 0 0 var(--line); }
+.pjnum__bar b { font-size: clamp(28px, 2.6vw, 40px); font-weight: 500; letter-spacing: -.03em; line-height: 1; color: var(--ink); white-space: nowrap; }
+.pjnum__bar span { font-size: 13px; color: var(--muted); line-height: 1.3; }
+
+/* о проекте */
+.pjabout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 6vw, 96px); align-items: center; }
+.pjabout__media { position: relative; height: 560px; }
+.pjabout__media figure { position: absolute; margin: 0; overflow: hidden; box-shadow: var(--sh-lg); }
+.pjabout__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+@media (hover: hover) { .pjabout__media figure:hover img { transform: scale(1.05); } }
+.pjabout__a { inset: 0 18% 14% 0; border-radius: 34px; }
+.pjabout__b { width: 46%; height: 46%; right: 0; bottom: 0; border-radius: 28px; border: 6px solid #fff; }
+.pjabout__txt .h2 { margin: 0 0 20px; }
+.pjabout__txt > p { color: var(--muted); font-size: 16.5px; }
+.pjabout__txt > p + p { margin-top: 12px; }
+.pjabout__list { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 10px; }
+.pjabout__list li { position: relative; padding-left: 28px; font-size: 15.5px; font-weight: 500; }
+.pjabout__list li::before { content: ""; position: absolute; left: 0; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: inset 0 0 0 4px #fff, 0 0 0 1px var(--accent); }
+
+/* обращение руководителя */
+.pjquote { display: grid; grid-template-columns: 260px 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; margin: clamp(64px, 8vw, 110px) 0 0; padding: clamp(22px, 3vw, 40px); border-radius: 34px; background: var(--bg); }
+.pjquote__ph { display: block; aspect-ratio: 3 / 4; border-radius: 24px; overflow: hidden; }
+.pjquote__ph img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.pjquote blockquote { margin: 0; }
+.pjquote blockquote .chip { background: #fff; }
+.pjquote blockquote > p { margin: 0 0 24px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.3; color: var(--ink); }
+.pjquote figcaption b { display: block; font-size: 18px; font-weight: 500; }
+.pjquote figcaption span { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
+
+/* этапы */
+.pjstages__head { margin-top: clamp(64px, 8vw, 110px); }
+.pjstages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: st; }
+.pjstages li { position: relative; padding: 24px 24px 26px; border-radius: var(--r); background: var(--bg); display: flex; flex-direction: column; gap: 6px; }
+.pjstages li.is-final { background: var(--navy); color: #fff; }
+.pjstages__n { font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--accent-t); line-height: 1.1; margin-bottom: 8px; }
+.is-final .pjstages__n { color: var(--mint); }
+.pjstages b { font-size: 19px; font-weight: 500; letter-spacing: -.02em; }
+.pjstages small { font-size: 13.5px; font-weight: 500; color: var(--accent-t); }
+.is-final small { color: var(--mint); }
+.pjstages p { margin-top: 6px; font-size: 14.5px; color: var(--muted); }
+.is-final p { color: rgba(255, 255, 255, .72); }
+
+/* принять участие */
+.pjjoin { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.pjjoin__txt .h2 { margin: 0 0 16px; }
+.pjjoin__txt > p { color: rgba(255, 255, 255, .78); font-size: 16px; max-width: 480px; margin-bottom: 28px; }
+.pjjoin__who { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pjjoin__who li { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 22px; background: rgba(255, 255, 255, .06); }
+.pjjoin__who i { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: rgba(227, 200, 143, .14); }
+.pjjoin__who svg { width: 22px; fill: none; stroke: var(--mint); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pjjoin__who b { display: block; font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+.pjjoin__who span { display: block; font-size: 13.5px; line-height: 1.4; color: rgba(255, 255, 255, .68); }
+
+/* FAQ */
+.pjfaq { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+.pjfaq__head .h2 { margin: 0 0 16px; }
+.pjfaq__head p { color: var(--muted); font-size: 16px; margin-bottom: 22px; max-width: 380px; }
+.pjfaq__list { display: grid; gap: 10px; }
+.pjfaq__list details { border-radius: 22px; background: var(--bg); overflow: hidden; transition: background .3s; }
+.pjfaq__list details[open] { background: var(--bg); }
+.pjfaq__list summary { position: relative; list-style: none; cursor: pointer; padding: 22px 70px 22px 26px; font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
+.pjfaq__list summary::-webkit-details-marker { display: none; }
+.pjfaq__list summary::after { content: ""; position: absolute; right: 22px; top: 50%; width: 32px; height: 32px; margin-top: -16px; border-radius: 50%; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A2834A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 16px no-repeat; transition: transform .35s var(--ease), background-color .3s; }
+.pjfaq__list details[open] summary::after { transform: rotate(45deg); background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B1622' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E"); }
+@media (hover: hover) { .pjfaq__list details:not([open]) summary:hover::after { background-color: var(--accent); } }
+.pjfaq__list details p { padding: 0 26px 24px; margin: -4px 0 0; color: var(--muted); font-size: 15.5px; max-width: 680px; }
+
+/* адаптив */
+@media (max-width: 1240px) {
+  .pjnum__bar div { padding: 14px 16px; }
+  .pjstages { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1060px) {
+  .pjnum__bar { grid-template-columns: repeat(3, 1fr); row-gap: 6px; }
+  .pjnum__bar div:nth-child(4) { box-shadow: none; }
+  .pjabout, .pjjoin, .pjfaq { grid-template-columns: 1fr; }
+  .pjabout__media { height: 460px; max-width: 640px; }
+  .pjquote { grid-template-columns: 200px 1fr; }
+}
+@media (max-width: 720px) {
+  .pjhero .chero__body { padding-bottom: 84px; }
+  .pjnum { margin-top: -50px; }
+  .pjnum__bar { grid-template-columns: 1fr 1fr; padding: 6px; border-radius: 22px; }
+  .pjnum__bar div { padding: 12px 14px; box-shadow: none !important; }
+  .pjnum__bar div:last-child { grid-column: 1 / -1; }
+  .pjnum__bar b { font-size: 28px; }
+  .pjabout__media { height: 340px; }
+  .pjabout__a { border-radius: 26px; }
+  .pjabout__b { border-radius: 20px; border-width: 4px; }
+  .pjabout__txt > p { font-size: 15.5px; }
+  .pjquote { grid-template-columns: 1fr; padding: 16px 16px 24px; border-radius: 26px; }
+  .pjquote__ph { aspect-ratio: 4 / 3; border-radius: 18px; }
+  .pjquote blockquote { padding: 0 6px; }
+  .pjquote blockquote > p { font-size: 21px; margin: 0 0 18px; }
+  .pjstages { grid-template-columns: 1fr; gap: 10px; }
+  .pjstages li { padding: 20px 20px 22px; }
+  .pjjoin__who { grid-template-columns: 1fr; }
+  .pjjoin__who li { flex-direction: row; align-items: flex-start; gap: 14px; padding: 16px; }
+  .pjjoin__who i { flex-shrink: 0; }
+  .pjjoin .btn { width: 100%; justify-content: space-between; }
+  .pjfaq__list summary { padding: 18px 60px 18px 20px; font-size: 16px; }
+  .pjfaq__list summary::after { right: 16px; }
+  .pjfaq__list details p { padding: 0 20px 20px; font-size: 15px; }
+}
+
+/* FAQ: открытая карточка — тот же кремовый фон, без тени; иконка «плюс» превращается в золотой «минус» */
+.pjfaq__list summary { transition: color .25s; }
+.pjfaq__list details[open] summary { color: var(--accent-t); }
+.pjfaq__list details[open] summary::after { transform: rotate(180deg); background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B1622' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 12h12'/%3E%3C/svg%3E"); }
+@media (hover: hover) { .pjfaq__list details:not([open]):hover { background: var(--sky); } }
+
+/* баннер проекта — как на главной: та же высота, заголовок и подзаголовок шире */
+.pjhero .chero__frame { min-height: clamp(600px, calc(100svh - 24px), 880px); }
+.pjhero .chero__body { max-width: calc(1320px + var(--hx)); padding-top: 112px; padding-bottom: 72px; }
+.pjhero h1 { font-size: clamp(36px, 4vw, 64px); text-wrap: wrap; }
+.pjhero .chero__body > p { max-width: 860px; }
+@media (max-width: 720px) {
+  .pjhero .chero__frame { min-height: 0; }
+  .pjhero .chero__body { padding-top: 26px; padding-bottom: 84px; }
+  .pjhero h1 { font-size: 34px; }
+}
+/* хлебные крошки — сразу под шапкой, текст баннера — внизу, как на главной */
+.pjhero .chero__body { position: static; }
+.pjhero .crumbs { position: absolute; top: 112px; left: var(--hx); right: var(--hx); margin: 0; }
+.pjhero .chero__body { --hx: max(24px, calc((100vw - 24px - 1320px) / 2)); }
+@media (max-width: 720px) {
+  .pjhero .crumbs { position: static; margin-bottom: 14px; }
+  .pjhero h1 br { display: none; }
+}
+.pjhero .chero__body { padding-top: 164px; } @media (max-width: 720px) { .pjhero .chero__body { padding-top: 26px; } }
+.pjhero .hero__slide img { object-position: 64% 0%; }
+.pjhero .hero__slides { inset: 0; }
+/* контент баннера — ровно посередине между хлебными крошками и полосой цифр (равные отступы сверху и снизу) */
+@media (min-width: 721px) {
+  .pjhero .chero__frame { justify-content: center; padding: 150px 0 63px; }
+  .pjhero .chero__body { padding-top: 0; padding-bottom: 0; }
+}
+.pjhero .chero__body > p { max-width: 730px; text-wrap: balance; }
+
+/* «О проекте в цифрах» v2: карточки в белой плашке, иконки, последняя — золотая (как «О нас в цифрах» на главной) */
+.pjnum__bar { gap: 8px; padding: 8px; border-radius: 30px; }
+.pjnum__bar div { position: relative; padding: 18px 20px 16px; border-radius: 22px; background: var(--bg); box-shadow: none !important; gap: 4px; min-height: 118px; justify-content: flex-end; transition: transform .45s var(--ease), background .3s; }
+@media (hover: hover) { .pjnum__bar div:hover { transform: translateY(-3px); } }
+.pjnum__ic { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: #fff; }
+.pjnum__ic svg { width: 18px; fill: none; stroke: var(--accent-t); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pjnum__bar b { font-size: clamp(30px, 2.8vw, 44px); }
+.pjnum__bar .is-accent { background: var(--accent); }
+.pjnum__bar .is-accent b { color: var(--on-accent); }
+.pjnum__bar .is-accent span { color: rgba(11, 22, 34, .72); }
+.pjnum__bar .is-accent .pjnum__ic { background: rgba(11, 22, 34, .1); }
+.pjnum__bar .is-accent .pjnum__ic svg { stroke: var(--on-accent); }
+@media (max-width: 1060px) { .pjnum__bar { row-gap: 8px; } }
+@media (max-width: 720px) {
+  .pjnum__bar { gap: 6px; padding: 6px; border-radius: 24px; }
+  .pjnum__bar div { min-height: 104px; padding: 14px 14px 12px; border-radius: 18px; }
+  .pjnum__ic { width: 30px; height: 30px; top: 10px; right: 10px; }
+  .pjnum__ic svg { width: 15px; }
+}
+
+/* баннер: картинка не растягивается на весь блок — прижата вправо и вниз, края мягко растворяются в тёмном фоне */
+@media (min-width: 721px) {
+  .pjhero .chero__frame { background: #06101d; }
+  .pjhero .hero__slide img { position: absolute; right: 0; bottom: 0; left: auto; top: auto; width: auto; height: 90%; max-width: none; object-fit: cover; object-position: 100% 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%), linear-gradient(180deg, transparent 0, #000 32%); -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent 0, #000 22%), linear-gradient(180deg, transparent 0, #000 32%); mask-composite: intersect; }
+}
+@media (min-width: 721px) { .pjhero .hero__slide img { transform: none !important; transition: none; } }
+.pjabout__a img { object-position: 58% 40%; }
+
+/* ===== правки: отступы, порядок на адаптиве ===== */
+/* последний блок перед подвалом — такой же отступ, как на главной (24 + 72) */
+#faq { padding-bottom: 24px; }
+/* таблетка без подложки — выровнена по левому краю текста */
+.pjquote blockquote .chip { background: transparent; padding-left: 0; }
+@media (max-width: 1100px) {
+  .pjabout__txt { order: -1; }
+}
+@media (max-width: 720px) {
+  .pjquote { display: flex; flex-direction: column; gap: 0; padding: 24px 20px; }
+  .pjquote blockquote { display: contents; padding: 0; }
+  .pjquote blockquote .chip { order: 1; align-self: flex-start; }
+  .pjquote blockquote > p { order: 2; margin: 0 0 22px; }
+  .pjquote__ph { order: 3; width: 100%; }
+  .pjquote figcaption { order: 4; margin-top: 18px; }
+}
+
+/* баннер с полноформатным фото (тёмная вода слева под текстом, дайвер справа) — снова на весь блок */
+@media (min-width: 721px) {
+  .pjhero .hero__slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 30%; -webkit-mask-image: none; mask-image: none; }
+}
+.pjhero .chero__veil { background: linear-gradient(90deg, rgba(4, 12, 28, .7) 0%, rgba(4, 12, 28, .35) 45%, rgba(4, 12, 28, 0) 70%), linear-gradient(0deg, rgba(4, 12, 28, .55) 0%, transparent 35%); }
+@media (max-width: 720px) {
+  .pjhero .hero__slide img { object-position: 58% 30%; }
+  .pjhero .chero__veil { background: linear-gradient(0deg, rgba(4, 12, 28, .92) 0%, rgba(4, 12, 28, .6) 55%, rgba(4, 12, 28, .25) 100%); }
+}

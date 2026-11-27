@@ -85,13 +85,54 @@
       <h3 class="md__t" id="mdTitle">${f.title}</h3>
       <p class="md__lead">${f.lead}</p>
       <form class="md__form" novalidate>
-        <fieldset class="md__chips"><legend>${f.chipsLabel}</legend>${f.chips.map((c, i) => `<label><input type="radio" name="kind" value="${c}"${i ? '' : ' checked'}><span>${c}</span></label>`).join('')}</fieldset>
+        <div class="md__f md__sel"><span id="mdSelL">${f.chipsLabel}</span>
+          <div class="sel">
+            <button type="button" class="sel__btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="mdSelL mdSelV"><span id="mdSelV">${f.chips[0]}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button>
+            <ul class="sel__list" role="listbox" aria-labelledby="mdSelL" tabindex="-1">${f.chips.map((c, i) => `<li role="option" data-v="${c}" aria-selected="${i ? 'false' : 'true'}">${c}</li>`).join('')}</ul>
+            <input type="hidden" name="kind" value="${f.chips[0]}">
+          </div>
+        </div>
         ${f.fields.map(([n, l, p, kind]) => kind === 'area' ? `<label class="md__f"><span>${l}</span><textarea name="${n}" rows="2" placeholder="${p}" required></textarea><em class="md__err"></em></label>` : `<label class="md__f"><span>${l}</span><input name="${n}" autocomplete="${n === 'contact' ? 'email' : n === 'name' ? 'name' : 'organization'}" placeholder="${p}" required><em class="md__err"></em></label>`).join('')}
         <button class="btn btn--blue md__go" type="submit">${f.submit} <i class="btn__ar">${ar}</i></button>
         <label class="md__ok"><input type="checkbox" name="agree" checked required><span>${UI.agree}</span></label>
       </form>`;
     body.querySelector('form').addEventListener('submit', submit);
+    initSelect(body.querySelector('.sel'));
     body.querySelectorAll('input, textarea').forEach((i) => i.addEventListener('input', () => { const w = i.closest('.md__f, .md__ok'); if (w) w.classList.remove('is-bad'); }));
+  }
+  /* выпадающий список вместо табов: кнопка + список вариантов, значение — в скрытом поле kind */
+  function initSelect(sel) {
+    if (!sel) return;
+    const btn = sel.querySelector('.sel__btn'), list = sel.querySelector('.sel__list'), val = sel.querySelector('#mdSelV'), inp = sel.querySelector('input');
+    const opts = [...list.children];
+    let hi = 0;
+    const mark = (i) => { hi = i; opts.forEach((o, k) => o.classList.toggle('is-hi', k === i)); };
+    const setOpen = (o) => {
+      sel.classList.toggle('is-open', o); btn.setAttribute('aria-expanded', o);
+      if (o) mark(Math.max(0, opts.findIndex((x) => x.getAttribute('aria-selected') === 'true')));
+    };
+    const pick = (i) => {
+      opts.forEach((o, k) => o.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+      val.textContent = opts[i].dataset.v; inp.value = opts[i].dataset.v;
+      setOpen(false); btn.focus();
+    };
+    btn.addEventListener('click', () => setOpen(!sel.classList.contains('is-open')));
+    opts.forEach((o, i) => {
+      o.addEventListener('click', () => pick(i));
+      o.addEventListener('mousemove', () => mark(i));
+    });
+    sel.addEventListener('keydown', (e) => {
+      const isOpen = sel.classList.contains('is-open');
+      if (e.key === 'Escape' && isOpen) { e.stopPropagation(); setOpen(false); btn.focus(); return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!isOpen) return setOpen(true);
+        mark((hi + (e.key === 'ArrowDown' ? 1 : opts.length - 1)) % opts.length);
+      }
+      if ((e.key === 'Enter' || e.key === ' ') && isOpen) { e.preventDefault(); pick(hi); }
+      if (e.key === 'Tab' && isOpen) setOpen(false);
+    });
+    document.addEventListener('click', (e) => { if (!sel.contains(e.target)) setOpen(false); });
   }
   function bad(input, msg) {
     const w = input.closest('.md__f, .md__ok'); w.classList.add('is-bad');

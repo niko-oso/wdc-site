@@ -1108,3 +1108,23 @@ body { background: #fff; }
 /* русское название в три строки */
 .brand__name--3 { line-height: 1.12; letter-spacing: .08em; }
 @media (max-width: 720px) { .brand__name--3 { font-size: 10px; letter-spacing: .06em; } }
+
+/* формы: выбор роли/темы — выпадающий список вместо табов (выглядит как поле ввода) */
+.md__sel { position: relative; z-index: 3; }
+.sel { position: relative; }
+.sel__btn { width: 100%; height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; border-radius: 14px; border: 0; background: var(--bg); font: inherit; font-size: 15px; color: var(--ink); text-align: left; cursor: pointer; transition: background .25s; }
+@media (hover: hover) { .sel__btn:hover { background: var(--sky); } }
+.sel.is-open .sel__btn { background: var(--sky); }
+.sel__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sel__btn svg { width: 12px; flex-shrink: 0; fill: none; stroke: var(--accent-t); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s var(--ease); }
+.sel.is-open .sel__btn svg { transform: rotate(180deg); }
+.sel__list { position: absolute; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none; border-radius: 16px; background: #fff; box-shadow: 0 22px 50px -18px rgba(11, 27, 51, .35), 0 0 0 1px rgba(11, 27, 51, .04); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .2s, transform .25s var(--ease), visibility .2s; }
+.sel.is-open .sel__list { opacity: 1; visibility: visible; transform: none; }
+.sel__list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 12px; border-radius: 11px; font-size: 14.5px; cursor: pointer; }
+.sel__list li.is-hi { background: var(--bg); }
+.sel__list li[aria-selected="true"] { color: var(--accent-t); font-weight: 500; }
+.sel__list li[aria-selected="true"]::after { content: ""; width: 10px; height: 5px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg) translateY(-2px); }
+@media (max-width: 720px) { .sel__btn { font-size: 16px; } }
+
+/* таблетка в формах без подложки — выровнена по левому краю */
+.md .chip { background: transparent; padding-left: 0; }

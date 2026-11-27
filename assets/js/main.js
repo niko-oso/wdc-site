@@ -31,13 +31,15 @@
   const P = window.WDC_PAGE || {};
   const comPages = { sport: 'sport', law: 'legal' }; // готовые страницы комитетов (RU и EN)
   const comHref = (c) => (comPages[c.k] ? ROOT + (EN ? 'en/' : '') + 'committees/' + comPages[c.k] + '.html' : '#');
+  const projPages = ['world-cup-2027']; // готовые страницы проектов по порядку D.projects (EN пока нет)
+  const projHref = (i) => (projPages[i] && !EN ? ROOT + 'projects/' + projPages[i] + '.html' : '#');
   const medIc = '<path d="M12 19s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 9c0 5.6-7 10-7 10z"/><path d="M12 7.5v5M9.5 10h5"/>';
   const medT = T('Медицинская подготовка', 'Medical training');
   const tagIc = { 'Спорт': 'sport', 'Sport': 'sport', 'Наука': 'sci', 'Science': 'sci', 'Экология': 'eco', 'Ecology': 'eco', 'Экспедиции': 'exp', 'Expeditions': 'exp', 'Парадайвинг': 'para', 'Para-diving': 'para', 'Молодёжь': 'youth', 'Youth': 'youth', 'Культура': 'art', 'Culture': 'art' };
   if ($('#ddGrid')) $('#ddGrid').innerHTML = D.committees.map((c) => `<a href="${comHref(c)}"><i>${icon(c.k)}</i><span><b>${c.t}</b>${c.sub ? `<small>${c.sub.join(' · ')}</small>` : ''}</span></a>`).join('');
   if ($('#mmSub')) $('#mmSub').innerHTML = D.committees.map((c) => `<a href="${comHref(c)}">${icon(c.k)}${c.t}</a>`).join('');
-  if ($('#ddProj')) $('#ddProj').innerHTML = `<a href="#" class="dd__feat"><i><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg></i><span><b>${medT}</b><small>${T('Курсы первой помощи и дайв-медицины', 'First aid and dive medicine courses')}</small></span></a>` + D.projects.map((p) => `<a href="#"><i>${icon(tagIc[p.tag] || 'exp')}</i><span><b>${p.t}</b><small>${p.tag}</small></span></a>`).join('');
-  if ($('#mmProj')) $('#mmProj').innerHTML = `<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg>${medT}</a>` + D.projects.map((p) => `<a href="#">${icon(tagIc[p.tag] || 'exp')}${p.t}</a>`).join('');
+  if ($('#ddProj')) $('#ddProj').innerHTML = `<a href="#" class="dd__feat"><i><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg></i><span><b>${medT}</b><small>${T('Курсы первой помощи и дайв-медицины', 'First aid and dive medicine courses')}</small></span></a>` + D.projects.map((p, i) => `<a href="${projHref(i)}"><i>${icon(tagIc[p.tag] || 'exp')}</i><span><b>${p.t}</b><small>${p.tag}</small></span></a>`).join('');
+  if ($('#mmProj')) $('#mmProj').innerHTML = `<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true">${medIc}</svg>${medT}</a>` + D.projects.map((p, i) => `<a href="${projHref(i)}">${icon(tagIc[p.tag] || 'exp')}${p.t}</a>`).join('');
   /* переключатель языка — выпадашка в стиле меню */
   $$('.lsw').forEach((lsw) => {
     let lT; const lBtn = $('.lsw__btn', lsw);
@@ -69,7 +71,7 @@
 
   /* ---------- проекты ---------- */
   if ($('#projGrid')) $('#projGrid').innerHTML =D.projects.map((p, i) => `
-    <a href="#" class="pc rv" style="--i:${Math.min(i, 3)}">
+    <a href="${projHref(i)}" class="pc rv" style="--i:${Math.min(i, 3)}">
       <span class="pc__ph">${pic(p.img, p.t)}</span>
       <span class="pc__tag">${p.tag}</span>
       <i class="pc__go">${arUp}</i>
@@ -449,4 +451,36 @@
   run(document.body);
   new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(run))).observe(document.body, { childList: true, subtree: true });
   window.wdcTypo = run;
+})();
+
+/* FAQ-аккордеон: открыт только один вопрос, раскрытие и закрытие — плавно по высоте */
+(function () {
+  const lists = document.querySelectorAll('[data-accordion]');
+  if (!lists.length) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DUR = 380;
+  const anim = (d, open) => {
+    const s = d.querySelector('summary');
+    if (d._a) { d._a.cancel(); d._a = null; }
+    clearTimeout(d._t);
+    const from = d.offsetHeight;
+    if (open) d.open = true;
+    const to = open ? d.scrollHeight : s.offsetHeight;
+    if (reduce || !d.animate) { if (!open) d.open = false; return; }
+    d._a = d.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: DUR, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+    // завершаем по таймеру, а не по onfinish: так состояние не «зависает», если анимация не доиграла
+    d._t = setTimeout(() => { if (d._a) { d._a.cancel(); d._a = null; } if (!open) d.open = false; }, DUR + 20);
+  };
+  lists.forEach((list) => {
+    const items = [...list.querySelectorAll('details')];
+    items.forEach((d) => {
+      d.querySelector('summary').addEventListener('click', (e) => {
+        e.preventDefault();
+        const willOpen = !d.open || !!(d._a && !d._opening);
+        items.forEach((x) => { if (x !== d && x.open) { x._opening = false; anim(x, false); } });
+        d._opening = willOpen;
+        anim(d, willOpen);
+      });
+    });
+  });
 })();
