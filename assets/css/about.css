@@ -57,3 +57,6 @@
   .abhero .hero__slide img { object-position: 88% 50%; }
   .abhero .chero__veil { background: linear-gradient(0deg, rgba(0, 12, 26, .92) 0%, rgba(0, 12, 26, .6) 55%, rgba(0, 12, 26, .3) 100%); }
 }
+
+/* фото баннера без увеличения — браузер не пересчитывает картинку и она не мылится */
+.abhero .hero__slide img { transform: none !important; transition: none; }
