@@ -21,8 +21,11 @@
     requestAnimationFrame(raf);
   }
   /* пункты «О нас» → якоря страницы about.html / en/about.html (на самой странице — просто якоря) */
-  const onAbout = !!$('.abhero');
+  const onAbout = !!$('#governance');
   $$('[data-anchor]').forEach((a) => { const id = a.dataset.anchor; a.setAttribute('href', onAbout ? '#' + id : ROOT + (EN ? 'en/' : '') + 'about.html#' + id); });
+  /* ссылки на отдельные страницы (Членство и т.п.); pagesEN — у каких уже есть EN-версия */
+  const pagesEN = new Set(['membership']);
+  $$('[data-page]').forEach((a) => { const p = a.dataset.page; a.setAttribute('href', EN ? (pagesEN.has(p) ? ROOT + 'en/' + p + '.html' : '#') : ROOT + p + '.html'); });
   $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
     const id = a.getAttribute('href'); if (id.length < 2) return;
     const t = $(id); if (!t) return;

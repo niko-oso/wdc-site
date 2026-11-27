@@ -39,6 +39,15 @@
       done: ['Сообщение отправлено', 'Спасибо! Председатель комитета получил ваше сообщение и ответит в течение 2 рабочих дней.'],
       img: 'c-sport',
     },
+    renew: {
+      kicker: 'Членство', title: 'Продлить <em>статус</em>',
+      lead: 'Укажите номер членского билета и контакты — пришлём счёт на продление и обновим статус в реестре WDC.',
+      chipsLabel: 'Тип членства', chips: ['Индивидуальное', 'Клуб или школа', 'Национальная Дайв Лига'],
+      fields: [['member', 'Номер членского билета', 'Например, WDC-0012345'], ['name', 'Имя', 'Как к вам обращаться'], ['contact', 'Телефон или e-mail', '+7 900 000-00-00']],
+      submit: 'Продлить статус',
+      done: ['Заявка отправлена', 'Спасибо! Счёт на продление придёт на указанный контакт в течение рабочего дня.'],
+      img: 'hero-1v2',
+    },
   };
   const EN = document.documentElement.lang === 'en';
   const UI = EN
@@ -65,6 +74,11 @@
       chipsLabel: 'Topic', chips: ['Competitions', 'National team', 'Judging', 'Other'],
       fields: [['name', 'Name', 'How should we address you'], ['contact', 'Phone or e-mail', '+1 555 000 0000'], ['message', 'Message', 'Briefly describe your question', 'area']],
       submit: 'Send message', done: ['Message sent', 'Thank you! The committee chair has received your message and will reply within 2 business days.'] },
+    renew: { ...F.renew, kicker: 'Membership', title: 'Renew <em>status</em>',
+      lead: 'Enter your membership card number and contact details — we’ll send an invoice for renewal and update your status in the WDC register.',
+      chipsLabel: 'Membership type', chips: ['Individual', 'Club or school', 'National Dive League'],
+      fields: [['member', 'Membership card number', 'E.g. WDC-0012345'], ['name', 'Name', 'How should we address you'], ['contact', 'Phone or e-mail', '+1 555 000 0000']],
+      submit: 'Renew status', done: ['Request sent', 'Thank you! The renewal invoice will arrive at your contact within one business day.'] },
   });
   // страница комитета может подменить тексты формы «Написать руководителю» (window.WDC_PAGE.chair)
   const PC = window.WDC_PAGE && window.WDC_PAGE.chair;
@@ -92,7 +106,7 @@
             <input type="hidden" name="kind" value="${f.chips[0]}">
           </div>
         </div>
-        ${f.fields.map(([n, l, p, kind]) => kind === 'area' ? `<label class="md__f"><span>${l}</span><textarea name="${n}" rows="2" placeholder="${p}" required></textarea><em class="md__err"></em></label>` : `<label class="md__f"><span>${l}</span><input name="${n}" autocomplete="${n === 'contact' ? 'email' : n === 'name' ? 'name' : 'organization'}" placeholder="${p}" required><em class="md__err"></em></label>`).join('')}
+        ${f.fields.map(([n, l, p, kind]) => kind === 'area' ? `<label class="md__f"><span>${l}</span><textarea name="${n}" rows="2" placeholder="${p}" required></textarea><em class="md__err"></em></label>` : `<label class="md__f"><span>${l}</span><input name="${n}" autocomplete="${n === 'contact' ? 'email' : n === 'name' ? 'name' : n === 'member' ? 'off' : 'organization'}" placeholder="${p}" required><em class="md__err"></em></label>`).join('')}
         <button class="btn btn--blue md__go" type="submit">${f.submit} <i class="btn__ar">${ar}</i></button>
         <label class="md__ok"><input type="checkbox" name="agree" checked required><span>${UI.agree}</span></label>
       </form>`;

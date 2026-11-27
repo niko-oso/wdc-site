@@ -1,0 +1,76 @@
+/* Страница «Членство в WDC» (поверх committee.css, project.css и about.css) */
+
+/* баннер без плашки цифр: снизу такой же отступ, как сверху */
+@media (min-width: 721px) {
+  .mbhero .chero__body { padding-top: 226px; padding-bottom: 93px; }
+}
+@media (max-width: 720px) {
+  .mbhero .chero__body { padding-bottom: 26px; }
+}
+.mbhero .hero__slide img { object-position: 100% 50%; transform: none !important; transition: none; }
+.mbhero .chero__veil { background: linear-gradient(90deg, rgba(4, 14, 30, .9) 0%, rgba(4, 14, 30, .72) 35%, rgba(4, 14, 30, .2) 60%, rgba(4, 14, 30, 0) 75%), linear-gradient(0deg, rgba(4, 14, 30, .35) 0%, transparent 40%); }
+@media (max-width: 1100px) {
+  .mbhero .chero__veil { background: linear-gradient(0deg, rgba(4, 12, 24, .92) 0%, rgba(4, 12, 24, .65) 55%, rgba(4, 12, 24, .35) 100%); }
+}
+
+/* преимущества */
+.mbben { margin-top: 0; }
+
+/* форматы членства */
+.mbtypes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mbtype { display: flex; flex-direction: column; padding: 28px; border-radius: var(--r); background: #fff; }
+.mbtype i { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--bg); margin-bottom: 20px; }
+.mbtype i svg { width: 24px; fill: none; stroke: var(--accent-t); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.mbtype b { font-size: 21px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 8px; }
+.mbtype p { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+.mbtype ul { list-style: none; margin: auto 0 0; padding: 18px 0 0; display: grid; gap: 10px; border-top: 1px solid var(--line); }
+.mbtype li { position: relative; padding-left: 26px; font-size: 14.5px; font-weight: 500; }
+.mbtype li::before { content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: inset 0 0 0 4px #fff, 0 0 0 1px var(--accent); }
+.mbtype--dark { background: var(--navy); color: #fff; }
+.mbtype--dark i { background: rgba(227, 200, 143, .14); }
+.mbtype--dark i svg { stroke: var(--mint); }
+.mbtype--dark p { color: rgba(255, 255, 255, .7); }
+.mbtype--dark ul { border-top-color: rgba(255, 255, 255, .12); }
+.mbtype--dark li::before { box-shadow: inset 0 0 0 4px var(--navy), 0 0 0 1px var(--accent); }
+
+/* шаги */
+.mbsteps__head { margin-top: clamp(64px, 8vw, 110px); }
+.mbsteps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.mbsteps li { padding: 24px 24px 26px; border-radius: var(--r); background: #fff; }
+.mbsteps span { display: block; font-family: var(--serif); font-style: italic; font-size: 34px; line-height: 1; color: var(--accent-t); margin-bottom: 18px; }
+.mbsteps b { display: block; font-size: 18px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 6px; }
+.mbsteps p { color: var(--muted); font-size: 14.5px; }
+
+/* вступить / продлить */
+.mbjoin { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.mbjoin__txt .h2 { margin: 0 0 16px; }
+.mbjoin__txt > p { color: rgba(255, 255, 255, .78); font-size: 16px; max-width: 440px; }
+.mbjoin__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mbjoin__card { display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 22px; background: rgba(255, 255, 255, .06); }
+.mbjoin__card small { font-size: 13px; color: var(--mint); }
+.mbjoin__card b { font-size: 18px; font-weight: 500; letter-spacing: -.01em; line-height: 1.3; margin-bottom: 14px; }
+.mbjoin__card .btn { margin-top: auto; align-self: flex-start; }
+
+@media (max-width: 1100px) {
+  .mbtypes { grid-template-columns: 1fr 1fr; }
+  .mbtype--dark { grid-column: 1 / -1; }
+  .mbsteps { grid-template-columns: 1fr 1fr; }
+  .mbjoin { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .mbtypes, .mbsteps, .mbjoin__cards { grid-template-columns: 1fr; }
+  .mbtype { padding: 22px; }
+  .mbtype b { font-size: 19px; }
+  .mbsteps li { padding: 20px 20px 22px; }
+  .mbsteps span { font-size: 30px; margin-bottom: 12px; }
+  .mbjoin__card { padding: 20px; }
+}
+.mbhero .chero__body > p { max-width: 470px; }
+
+/* кнопка «Вступить» в блоке шагов: на ПК — в шапке блока, на адаптиве — под карточками */
+.mbsteps__more { display: none; }
+@media (max-width: 720px) {
+  .mbsteps__head .btn { display: none; }
+  .mbsteps__more { display: block; margin-top: 24px; }
+  .mbsteps__more .btn { width: 100%; justify-content: space-between; }
+}
