@@ -20,6 +20,9 @@
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
   }
+  /* пункты «О нас» → якоря страницы about.html / en/about.html (на самой странице — просто якоря) */
+  const onAbout = !!$('.abhero');
+  $$('[data-anchor]').forEach((a) => { const id = a.dataset.anchor; a.setAttribute('href', onAbout ? '#' + id : ROOT + (EN ? 'en/' : '') + 'about.html#' + id); });
   $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
     const id = a.getAttribute('href'); if (id.length < 2) return;
     const t = $(id); if (!t) return;
@@ -329,7 +332,17 @@
     const box = $('#flow'), tabs = $('#flowTabs');
     const people = []; D.leagues.forEach((L, li) => L.people.forEach((p) => people.push({ ...p, li, L })));
     box.innerHTML = people.map((p, i) => `<div class="fc" data-i="${i}">${pic(p.img, p.n)}<div class="fc__b"><span class="fc__lg"><i>${p.L.code}</i>${p.L.country}</span><b>${p.n}</b><span class="fc__r">${p.r}</span><span class="fc__bio">${p.b}</span></div></div>`).join('');
-    tabs.innerHTML = D.leagues.map((L, i) => `<button data-l="${i}"><b>${L.code}</b>${L.country}</button>`).join('');
+    /* флаги стран в кружках вкладок (упрощённые, viewBox 30×20; L — левый край флага в кадре) */
+    const FL = {
+      RU: ['M0 0h30v20H0z" fill="#fff', 'M0 6.67h30v6.66H0z" fill="#0039A6', 'M0 13.33h30V20H0z" fill="#D52B1E'],
+      BY: ['M0 0h30v13.33H0z" fill="#C8313E', 'M0 13.33h30V20H0z" fill="#4AA657', 'M0 0h4v20H0z" fill="#fff', 'M2 1l1.4 2-1.4 2-1.4-2zM2 7l1.4 2-1.4 2-1.4-2zM2 13l1.4 2-1.4 2-1.4-2z" fill="#C8313E', 'L'],
+      KZ: ['M0 0h30v20H0z" fill="#00AFCA', 'M15 6.2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" fill="#FEC50C', 'M15 3.6v1.6M15 13.2v1.6M10.4 9.2h1.6M18 9.2h1.6M11.8 6l1.1 1.1M17.1 11.3l1.1 1.1M18.2 6l-1.1 1.1M12.9 11.3l-1.1 1.1" stroke="#FEC50C" stroke-width=".9', 'M13 15.6c1.3.8 2.7.8 4 0" stroke="#FEC50C" stroke-width=".9" fill="none'],
+      EG: ['M0 0h30v6.67H0z" fill="#CE1126', 'M0 6.67h30v6.66H0z" fill="#fff', 'M0 13.33h30V20H0z" fill="#000', 'M13.6 7.6h2.8v3.4l-1.4 1.2-1.4-1.2z" fill="#C09300'],
+      AE: ['M0 0h30v6.67H0z" fill="#00732F', 'M0 6.67h30v6.66H0z" fill="#fff', 'M0 13.33h30V20H0z" fill="#000', 'M0 0h8v20H0z" fill="#FF0000', 'L'],
+      ID: ['M0 0h30v10H0z" fill="#CE1126', 'M0 10h30v10H0z" fill="#fff'],
+    };
+    const flag = (c) => { const f = FL[c]; if (!f) return c; const left = f[f.length - 1] === 'L'; return `<svg viewBox="0 0 30 20" preserveAspectRatio="${left ? 'xMin' : 'xMid'}YMid slice" aria-hidden="true">${f.filter((x) => x !== 'L').map((d) => `<path d="${d}"/>`).join('')}</svg>`; };
+    tabs.innerHTML = D.leagues.map((L, i) => `<button data-l="${i}"><b class="${FL[L.code] ? 'flag' : ''}">${flag(L.code)}</b>${L.country}</button>`).join('');
     const cards = $$('.fc', box), tabBtns = $$('button', tabs);
     let at = 0;
     function layout() {

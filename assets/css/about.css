@@ -1,0 +1,59 @@
+/* Страница «О нас» (поверх committee.css и project.css) */
+
+/* якоря из меню — заголовок не прячется под шапкой */
+#mission, #governance, #leagues, #honorary, #partners { scroll-margin-top: 90px; }
+
+.abhero .chero__body { max-width: calc(1000px + 2 * var(--hx)); }
+.abhero h1 { font-size: clamp(36px, 3.6vw, 56px); }
+.abhero .chero__body > p { max-width: 560px; }
+
+/* цифры: 4 карточки */
+.abnum .pjnum__bar { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1060px) and (min-width: 721px) {
+  .abnum .pjnum__bar { grid-template-columns: repeat(4, 1fr); }
+  .abnum .pjnum__bar div:nth-child(4) { box-shadow: none; }
+}
+@media (max-width: 720px) {
+  .abnum .pjnum__bar { grid-template-columns: 1fr 1fr; }
+  .abnum .pjnum__bar div:last-child { grid-column: auto; }
+}
+
+/* подпись справа в шапке блока */
+.head__p { max-width: 420px; color: var(--muted); font-size: 15.5px; }
+
+/* почётные члены и представители */
+.hon { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.hon .mem { display: flex; flex-direction: column; }
+.hon .mem__ph { height: auto; aspect-ratio: 4 / 5; }
+@media (max-width: 1100px) { .hon { grid-template-columns: 1fr 1fr; } .hon .mem__ph { aspect-ratio: 1 / 1; } }
+@media (max-width: 720px) {
+  .hon { gap: 10px; }
+  .hon .mem { padding: 6px 6px 14px; }
+  .hon .mem .lead__role, .hon .mem h3, .hon .mem p { padding: 0 6px; }
+  .hon .mem h3 { font-size: 16px; }
+  .hon .mem p { font-size: 13px; }
+  .head__p { font-size: 15px; }
+}
+
+/* баннер: снизу место под наезжающую плашку цифр */
+.abhero .chero__body { padding-bottom: 96px; }
+@media (max-width: 720px) {
+  .abhero .chero__body { padding-bottom: 84px; }
+  .abnum .pjnum__bar b { font-size: 25px; }
+}
+
+/* хлебные крошки — вверху под шапкой, как на странице проекта */
+@media (min-width: 721px) {
+  .abhero .chero__frame { min-height: 0; }
+  .abhero .chero__body { position: static; padding-top: 196px; padding-bottom: 109px; }
+  .abhero .crumbs { position: absolute; top: 112px; left: var(--hx); right: var(--hx); margin: 0; }
+}
+
+/* фото баннера: дайверы справа, слева тёмная вода под текстом */
+.abhero .chero__frame { background: #000c1a; }
+.abhero .hero__slide img { object-position: 100% 50%; }
+.abhero .chero__veil { background: linear-gradient(90deg, rgba(0, 12, 26, .75) 0%, rgba(0, 12, 26, .45) 40%, rgba(0, 12, 26, 0) 65%); }
+@media (max-width: 1100px) {
+  .abhero .hero__slide img { object-position: 88% 50%; }
+  .abhero .chero__veil { background: linear-gradient(0deg, rgba(0, 12, 26, .92) 0%, rgba(0, 12, 26, .6) 55%, rgba(0, 12, 26, .3) 100%); }
+}

@@ -1102,8 +1102,7 @@ body { background: #fff; }
 .dd--list .dd__panel { width: 300px; }
 .dd__list { display: grid; gap: 2px; padding: 10px; border-radius: 22px; background: rgba(255, 255, 255, .97); backdrop-filter: blur(20px); box-shadow: var(--sh-lg); }
 .dd__list a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border-radius: 14px; font-size: 14.5px; font-weight: 500; transition: background .2s, color .2s; }
-.dd__list a::after { content: ""; width: 7px; height: 7px; border-top: 1.8px solid var(--accent-t); border-right: 1.8px solid var(--accent-t); transform: rotate(45deg); opacity: 0; transition: opacity .2s, transform .25s; }
-@media (hover: hover) { .dd__list a:hover { background: var(--bg); } .dd__list a:hover::after { opacity: 1; transform: translateX(2px) rotate(45deg); } }
+@media (hover: hover) { .dd__list a:hover { background: var(--accent); color: var(--on-accent); } }
 .mm__sub--plain a { padding: 10px 0; }
 /* русское название в три строки */
 .brand__name--3 { line-height: 1.12; letter-spacing: .08em; }
@@ -1128,3 +1127,9 @@ body { background: #fff; }
 
 /* таблетка в формах без подложки — выровнена по левому краю */
 .md .chip { background: transparent; padding-left: 0; }
+
+/* флаги в кружках вкладок Национальных Дайв Лиг */
+.crew__tabs b.flag { position: relative; overflow: hidden; background: none; }
+.crew__tabs b.flag svg { width: 100%; height: 100%; display: block; }
+.crew__tabs b.flag::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(11, 22, 34, .14); }
+.crew__tabs button.is-on b.flag { background: none; }
