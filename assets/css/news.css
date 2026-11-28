@@ -1,0 +1,76 @@
+/* Страница «Новости» (поверх committee.css, about.css, membership.css) */
+
+/* фильтр по направлениям */
+.nwtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+.nwtabs button { height: 42px; padding: 0 18px; border-radius: 30px; background: var(--bg); font-size: 14.5px; font-weight: 500; color: var(--ink); white-space: nowrap; transition: background .25s, color .25s; }
+@media (hover: hover) { .nwtabs button:hover { background: var(--accent); color: var(--on-accent); } }
+.nwtabs button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+
+/* сетка карточек */
+.nwgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.nwgrid .nc { background: var(--bg); }
+.nwempty { color: var(--muted); padding: 40px 0; text-align: center; }
+.nwmore { display: flex; justify-content: center; margin-top: 40px; }
+.nwmore .btn[hidden] { display: none; }
+
+@media (max-width: 1240px) { .nwgrid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1060px) {
+  .nwgrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .nwtabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 22px; padding: 0 16px; }
+  .nwtabs::-webkit-scrollbar { display: none; }
+  .nwgrid { grid-template-columns: 1fr; gap: 12px; }
+  .nwmore { margin-top: 28px; }
+  .nwmore .btn { width: 100%; justify-content: space-between; }
+}
+
+/* шапка страницы без баннера: крошки, h1 и подзаголовок на всю ширину */
+.nwpage { padding-top: 140px; }
+.nwcrumbs { color: var(--muted); margin-bottom: 26px; }
+.nwcrumbs a { color: var(--muted); }
+@media (hover: hover) { .nwcrumbs a:hover { color: var(--accent-t); } }
+.nwcrumbs b { color: var(--ink); }
+.nwtitle { font-size: clamp(40px, 5vw, 76px); line-height: 1.02; letter-spacing: -.035em; font-weight: 500; margin: 0 0 18px; }
+.nwtitle em { font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--accent-t); }
+.nwlead { color: var(--muted); font-size: clamp(16px, 1.3vw, 19px); line-height: 1.5; margin: 0 0 40px; }
+@media (max-width: 720px) {
+  .nwpage { padding-top: 104px; }
+  .nwcrumbs { margin-bottom: 18px; }
+  .nwtitle { font-size: 38px; margin-bottom: 12px; }
+  .nwlead { margin-bottom: 26px; }
+}
+
+
+/* карточки новостей белые с тенью (как карточки партнёров) */
+.nwgrid .nc { background: #fff; box-shadow: 0 12px 30px -16px rgba(11, 27, 51, .22), 0 0 14px rgba(11, 27, 51, .07); }
+@media (hover: hover) { .nwgrid .nc:hover { box-shadow: var(--sh-lg); } }
+.nwgrid { row-gap: 32px; }
+@media (max-width: 720px) { .nwgrid { row-gap: 16px; } }
+
+/* пагинация */
+.nwpg { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 20px; }
+.nwpg[hidden] { display: none; }
+.nwpg button { min-width: 44px; height: 44px; padding: 0 6px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); font-size: 15px; font-weight: 500; color: var(--ink); transition: background .25s, color .25s; }
+.nwpg button[aria-current="page"] { background: var(--accent); color: var(--on-accent); }
+.nwpg button svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nwpg button:disabled { opacity: .35; cursor: default; }
+@media (hover: hover) { .nwpg button:not(:disabled):not([aria-current]):hover { background: var(--accent); color: var(--on-accent); } }
+
+/* пагинация и «Показать ещё» в одну линию по центру: страницы слева, кнопка справа */
+.nwfoot { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 40px; }
+.nwfoot .btn[hidden] { display: none; }
+.nwfoot .nwpg { margin: 0; order: -1; }
+@media (max-width: 720px) {
+  .nwfoot { flex-direction: column; align-items: stretch; margin-top: 28px; }
+  .nwfoot .btn { width: 100%; justify-content: center; }
+}
+.nwpg__gap { min-width: 24px; text-align: center; color: var(--muted); }
+@media (max-width: 720px) {
+  .nwpg { gap: 4px; }
+  .nwpg button { flex: 0 1 44px; min-width: 0; height: auto; aspect-ratio: 1; }
+}
+/* стрелки пагинации — чуть дальше от номеров */
+.nwpg__ar:first-child { margin-right: 14px; }
+.nwpg__ar:last-child { margin-left: 14px; }
+@media (max-width: 720px) { .nwpg__ar:first-child { margin-right: 8px; } .nwpg__ar:last-child { margin-left: 8px; } }

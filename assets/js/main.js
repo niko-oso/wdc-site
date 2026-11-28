@@ -24,8 +24,8 @@
   const onAbout = !!$('#governance');
   $$('[data-anchor]').forEach((a) => { const id = a.dataset.anchor; a.setAttribute('href', onAbout ? '#' + id : ROOT + (EN ? 'en/' : '') + 'about.html#' + id); });
   /* ссылки на отдельные страницы (Членство и т.п.); pagesEN — у каких уже есть EN-версия */
-  const pagesEN = new Set(['membership']);
-  $$('[data-page]').forEach((a) => { const p = a.dataset.page; a.setAttribute('href', EN ? (pagesEN.has(p) ? ROOT + 'en/' + p + '.html' : '#') : ROOT + p + '.html'); });
+  const pagesEN = new Set(['membership', 'news']);
+  $$('[data-page]').forEach((a) => { const p = a.dataset.page, q = a.dataset.f ? '?f=' + a.dataset.f : ''; a.setAttribute('href', EN ? (pagesEN.has(p) ? ROOT + 'en/' + p + '.html' + q : '#') : ROOT + p + '.html' + q); });
   $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
     const id = a.getAttribute('href'); if (id.length < 2) return;
     const t = $(id); if (!t) return;
@@ -426,7 +426,7 @@
   let lastY = 0;
   function onScroll() {
     const y = scrollY, hh = hero ? hero.offsetHeight : 600;
-    hd.classList.toggle('is-solid', y > 40);
+    hd.classList.toggle('is-solid', y > 40 || document.body.classList.contains('is-light')); // is-light — страница без тёмного баннера
     lastY = y;
     if (!reduce && slidesBox && y < hh) slidesBox.style.transform = `translate3d(0, ${(y * 0.25).toFixed(1)}px, 0)`;
     pill.classList.toggle('is-on', y > hh * 0.6 && y + innerHeight < document.documentElement.scrollHeight - 90);
