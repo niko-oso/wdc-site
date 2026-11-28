@@ -5,7 +5,7 @@
     { t: 'Комитет запустил международный реестр норм в сфере дайвинга', c: 'Юридический комитет', tag: 'law', dt: '20 ноября 2026', d: 'В открытой базе собраны законы и практики 47 стран — от сертификации до ответственности инструкторов', img: 'c-law' },
     { t: 'Открыта регистрация сборных на Кубок мира по фридайвингу 2027', c: 'Спортивный комитет', tag: 'sport', dt: '14 ноября 2026', d: 'Три этапа и финал у Голубой дыры Дахаба. Заявки национальных сборных принимаются до 1 февраля', img: 'p-worldcup-medals' },
     { t: 'Сборная России взяла три медали на чемпионате по фридайвингу', c: 'Спортивный комитет', tag: 'sport', dt: '05 ноября 2026', d: 'Спортсменки установили национальный рекорд в дисциплине CWT', img: 'n-medal' },
-    { t: 'Найден неизвестный корабль XVIII века у острова Гогланд', c: 'Научный комитет', tag: 'sci', dt: '01 ноября 2026', d: 'Судно лежит на глубине 42 метров и отлично сохранилось. Начато 3D-моделирование', img: 'hero-3' },
+    { t: 'Найден неизвестный корабль XVIII века у острова Гогланд', c: 'Научный комитет', tag: 'sci', dt: '01 ноября 2026', d: 'Судно лежит на глубине 42 метров и отлично сохранилось. Начато 3D-моделирование', img: 'hero-3', u: 1 },
     { t: 'Утверждён новый стандарт подготовки инструкторов', c: 'Комитет стандартизации', tag: 'edu', dt: '28 октября 2026', d: 'Документ гармонизирован с ISO 24801 и вступает в силу с 1 января', img: 'c-std' },
     { t: 'Волонтёры WDC очистили 12 км побережья Красного моря', c: 'Экологический комитет', tag: 'eco', dt: '24 октября 2026', d: 'Собрано более 3 тонн мусора, в акции участвовали 400 дайверов из 11 стран', img: 'n-beach' },
     { t: 'Открыт набор в детско-юношескую экспедицию на Белое море', c: 'Детско-юношеский комитет', tag: 'edu', dt: '20 октября 2026', d: 'Участники от 12 до 17 лет пройдут обучение и погружения под присмотром инструкторов', img: 'n-whitesea' },
@@ -71,6 +71,33 @@
   const MQ = matchMedia('(max-width: 720px)');
   let STEP = MQ.matches ? 5 : 8; // новостей на одной странице: телефон — 5, ПК и планшет — 8
 
+  /* детальная страница новости (пока одна демо-статья RU/EN — на неё ведут все карточки) */
+  const ROOT = ASSETS.replace(/assets\/$/, '');
+  const HREF = ROOT + (EN ? 'en/' : '') + 'news-gogland.html';
+  const share = document.getElementById('arShare');
+  if (share) {
+    // «Другие новости» внизу статьи — свежие новости без текущей (рисует main.js в #newsGrid)
+    window.WDC_PAGE = Object.assign(window.WDC_PAGE || {}, { news: NEWS.filter((n) => !n.u).slice(0, 8) });
+    const url = encodeURIComponent(location.href.split('#')[0]), title = encodeURIComponent(document.querySelector('h1').textContent);
+    // содержание: подсветка раздела, который сейчас на экране
+    const toc = [...document.querySelectorAll('#arToc a')].map((a) => [a, document.querySelector(a.getAttribute('href'))]).filter(([, el]) => el);
+    const spy = () => {
+      let on = toc[0];
+      toc.forEach((t) => { if (t[1].getBoundingClientRect().top < innerHeight * .35) on = t; });
+      toc.forEach((t) => t[0].classList.toggle('is-on', t === on));
+    };
+    if (toc.length) { addEventListener('scroll', spy, { passive: true }); spy(); }
+    const ok = document.getElementById('arCopied');
+    share.addEventListener('click', (e) => {
+      const a = e.target.closest('[data-share]'); if (!a) return;
+      e.preventDefault();
+      const k = a.dataset.share;
+      if (k === 'tg') open('https://t.me/share/url?url=' + url + '&text=' + title, '_blank', 'noopener');
+      else if (k === 'vk') open('https://vk.com/share.php?url=' + url + '&title=' + title, '_blank', 'noopener');
+      else if (navigator.clipboard) navigator.clipboard.writeText(decodeURIComponent(url)).then(() => { ok.hidden = false; clearTimeout(ok.t); ok.t = setTimeout(() => { ok.hidden = true; }, 2200); });
+    });
+  }
+
   const tabs = document.getElementById('nwTabs'), grid = document.getElementById('nwGrid'), more = document.getElementById('nwMore'), empty = document.getElementById('nwEmpty'), pager = document.getElementById('nwPager');
   if (!tabs) return;
   // from — первая показанная страница, to — последняя (кнопка «Показать ещё» расширяет to, пагинация ставит from = to)
@@ -79,7 +106,7 @@
 
   tabs.innerHTML = TAGS.filter(([k]) => k === 'all' || NEWS.some((n) => n.tag === k)).map(([k, l]) => `<button type="button" data-f="${k}" aria-pressed="${k === cur}">${l}</button>`).join('');
 
-  const card = (n) => `<a href="#" class="nc"><span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span><span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">${L.more}<i>${ar}</i></span></span></a>`;
+  const card = (n) => `<a href="${HREF}" class="nc"><span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span><span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">${L.more}<i>${ar}</i></span></span></a>`;
   const chev = (d) => `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
 
   function syncUrl() {

@@ -1,0 +1,107 @@
+/* Детальная страница новости (поверх main.css, committee.css, news.css) */
+
+/* мета над заголовком — таблетки одного приглушённого цвета: направление, дата, время чтения */
+.armeta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.armeta span { height: 38px; padding: 0 16px; display: inline-flex; align-items: center; border-radius: 30px; background: var(--bg); font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+
+
+/* компас справа от заголовка (как в блоке миссии на главной) */
+.arpage { overflow-x: clip; }
+.arpage > .wrap { position: relative; z-index: 1; }
+.compass--ar { left: auto; right: calc((100vw - 1320px) / 2 - 300px); top: 30px; width: 600px; height: 600px; transform: none; }
+@media (max-width: 1600px) and (min-width: 1061px) { .compass--ar { left: auto; right: -110px; top: 50px; width: 480px; height: 480px; transform: none; } }
+@media (max-width: 1060px) { .compass--ar { left: auto; right: -240px; top: 40px; bottom: auto; width: 520px; height: 520px; } }
+@media (max-width: 720px) { .compass--ar { left: auto; right: -200px; top: 40px; bottom: auto; width: 400px; height: 400px; opacity: .45; } }
+.artitle { max-width: 1060px; }
+.arlead { max-width: 900px; }
+
+/* главное фото */
+.arhero { margin: 0 0 56px; }
+.arhero img { display: block; width: 100%; height: clamp(300px, 44vw, 620px); object-fit: cover; border-radius: var(--r); }
+.arhero figcaption, .arpics figcaption { margin-top: 12px; font-size: 13.5px; color: var(--muted); }
+
+/* текст статьи + боковая колонка */
+.arbody { display: grid; grid-template-columns: minmax(0, 800px) 300px; justify-content: space-between; gap: 56px; align-items: start; }
+.arcontent { font-size: 18px; line-height: 1.65; color: var(--ink); }
+.arcontent > p { margin: 0 0 22px; }
+.arcontent h2 { font-size: clamp(26px, 2.3vw, 34px); line-height: 1.12; letter-spacing: -.025em; font-weight: 500; margin: 48px 0 18px; }
+.arlist { margin: 0 0 28px; padding: 0; list-style: none; display: grid; gap: 12px; }
+.arlist li { position: relative; padding-left: 28px; }
+.arlist li::before { content: ''; position: absolute; left: 4px; top: .62em; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+
+/* цифры */
+.arfacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 32px 0; }
+.arfacts div { padding: 24px 22px; border-radius: 22px; background: var(--bg); }
+.arfacts b { display: block; font-size: clamp(30px, 2.8vw, 42px); line-height: 1; letter-spacing: -.03em; font-weight: 500; color: var(--accent-t); margin-bottom: 10px; }
+.arfacts span { display: block; font-size: 14px; line-height: 1.4; color: var(--muted); }
+
+/* цитата */
+.arquote { margin: 40px 0; padding: 36px 40px; border-radius: var(--r); background: var(--bg); }
+.arquote p { margin: 0 0 24px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(22px, 2vw, 29px); line-height: 1.3; }
+.arquote footer { display: flex; align-items: center; gap: 14px; }
+.arquote footer img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.arquote footer span { font-size: 14px; line-height: 1.4; color: var(--muted); }
+.arquote footer b { display: block; font-size: 16px; font-weight: 500; color: var(--ink); }
+
+/* пара фото */
+.arpics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 32px 0 8px; }
+.arpics figure { margin: 0; }
+.arpics img { display: block; width: 100%; aspect-ratio: 4 / 4.4; object-fit: cover; border-radius: 22px; }
+.arpics figcaption { grid-column: 1 / -1; margin-top: 0; }
+
+/* теги */
+.artags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+.artags span { height: 36px; padding: 0 16px; display: inline-flex; align-items: center; border-radius: 30px; background: var(--bg); font-size: 14px; color: var(--muted); }
+
+/* боковая карточка */
+.arside { position: sticky; top: 110px; display: grid; gap: 22px; }
+.arcard { padding: 26px; border-radius: var(--r); background: #fff; box-shadow: 0 12px 30px -16px rgba(11, 27, 51, .22), 0 0 14px rgba(11, 27, 51, .07); }
+.arcard__t { display: block; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+/* содержание: подсвечивается раздел, который сейчас читают */
+.artoc { display: grid; }
+.artoc a { position: relative; padding: 9px 0 9px 18px; font-size: 15.5px; line-height: 1.35; color: var(--muted); transition: color .25s; }
+.artoc a::before { content: ''; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--line); transition: background .25s; }
+.artoc a.is-on { color: var(--ink); font-weight: 500; }
+.artoc a.is-on::before { background: var(--accent); }
+@media (hover: hover) { .artoc a:hover { color: var(--accent-t); } }
+.arshare > div { display: flex; gap: 8px; }
+.arshare a, .arshare button { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); color: var(--ink); transition: background .25s; }
+.arshare img { width: 20px; height: 20px; }
+.arshare svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: hover) { .arshare a:hover, .arshare button:hover { background: var(--accent); } }
+.arshare__ok { display: block; margin-top: 10px; font-size: 13px; color: var(--accent-t); }
+.arshare__ok[hidden] { display: none; }
+.arback { justify-self: start; }
+
+/* отступ статьи от блока «Другие новости» */
+.arpage { padding-bottom: var(--sec); }
+
+@media (max-width: 1060px) {
+  /* одна колонка: содержание над текстом, «Поделиться» и «Все новости» — после */
+  .arbody { display: flex; flex-direction: column; gap: 0; }
+  .arside { display: contents; }
+  .arcontent, .arcard { width: 100%; max-width: 800px; }
+  .artoc { order: -1; margin-bottom: 36px; background: var(--bg); box-shadow: none; }
+  .arshare { order: 1; margin-top: 40px; }
+  .arback { order: 2; align-self: flex-start; margin-top: 22px; }
+}
+@media (max-width: 720px) {
+  .armeta { margin-bottom: 16px; }
+  .armeta { gap: 5px; }
+  .armeta span { height: 34px; padding: 0 11px; font-size: 12.5px; }
+  .artitle { font-size: 32px; line-height: 1.08; }
+  .arhero { margin-bottom: 36px; }
+  .arhero img { height: 260px; border-radius: 20px; }
+  .arcontent { font-size: 16.5px; line-height: 1.6; }
+  .arcontent > p { margin-bottom: 18px; }
+  .arcontent h2 { font-size: 25px; margin: 36px 0 14px; }
+  .arfacts { grid-template-columns: 1fr; gap: 8px; margin: 24px 0; }
+  .arfacts div { display: flex; align-items: center; gap: 16px; padding: 18px 20px; }
+  .arfacts b { margin: 0; min-width: 96px; font-size: 30px; }
+  .arquote { margin: 28px 0; padding: 26px 22px; border-radius: 22px; }
+  .arquote p { font-size: 21px; margin-bottom: 20px; }
+  .arpics { gap: 8px; }
+  .arpics img { border-radius: 16px; }
+  .artags { margin-top: 28px; }
+  .arcard { padding: 22px; }
+}

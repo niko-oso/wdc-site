@@ -94,7 +94,7 @@
 
   /* ---------- новости ---------- */
   if ($('#newsGrid')) $('#newsGrid').innerHTML = (P.news || D.news).map((n, i) => `
-    <a href="#" class="nc rv" style="--i:${Math.min(i, 3)}">
+    <a href="${ROOT + (EN ? 'en/' : '') + 'news-gogland.html'}" class="nc rv" style="--i:${Math.min(i, 3)}">
       <span class="nc__ph">${pic(n.img, n.t)}<span class="nc__dt">${n.dt}</span></span>
       <span class="nc__b"><span class="nc__c">${n.c}</span><h3>${n.t}</h3><p>${n.d}</p><span class="nc__more">${T('Подробнее', 'Read more')}<i>${arUp}</i></span></span>
     </a>`).join('');
