@@ -16,6 +16,9 @@
     { k: 'para', t: 'Para-diving', d: 'Adaptive diving for people with disabilities' },
     { k: 'art', t: 'Culture & Arts', d: 'Underwater photography, film, exhibitions and festivals' },
     { k: 'law', t: 'Legal', d: 'Legal support for leagues, clubs and members' },
+    { k: 'exp', t: 'Expeditions', d: 'Underwater expeditions, searching for and studying sunken objects' },
+    { k: 'dive', t: 'Commercial Diving', d: 'Professional diving works, diver training and certification' },
+    { k: 'tour', t: 'Dive Tourism', d: 'Dive trips, safaris and safe underwater travel around the world' },
   ].map((c, i) => ({ ...c, img: cImg[i] }));
 
   const pImg = img(D.projects);
